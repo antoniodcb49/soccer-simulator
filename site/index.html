@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Soccer Simulator</title>
+        <link rel="stylesheet" href="css/bootstrap.min.css">
+        <!--<link rel="stylesheet" href="css/styles.css"> -->
+        <link rel="stylesheet" href="SoccerSimulatorStyles.css" />
+    </head>
+    <body>
+        <h1>Select a league to simulate</h2>
+        <section name="leagueNames">
+            <div class="europe">
+                Europe
+            <button id="england" onclick="createSchedule('england')">England (Premier League)</button>
+            <button id="spain" onclick="createSchedule('spain')">Spain (La Liga)</button>
+            <button id="italy" onclick="createSchedule('italy')">Italy (Serie A)</button>
+            <button id="germany" onclick="createSchedule('germany')">Germany (Bundesliga)</button>
+            <button id="france" onclick="createSchedule('france')">France (Ligue 1)</button>
+            <button id="portugal" onclick="createSchedule('portugal')">Portugal (Primeira Liga)</button>
+            <button id="netherlands" onclick="createSchedule('netherlands')">Netherlands (Eredivisie)</button>
+            </div>
+            <div class="dropdown">
+                <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">Europe</button>
+                <ul class="dropdown-menu">
+                  <li><a class="dropdown-item" href="#">Action</a></li>
+                  <li><a class="dropdown-item" href="#">Another action</a></li>
+                  <li><a class="dropdown-item" href="#">Something else here</a></li>
+                </ul>
+            </div>
+            <div class="dropdown">
+                <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">America
+                <ul class="dropdown-menu">
+                  <li><a= class="dropdown-item" href="#">Brazil (Série A)</a></li>
+                  <li><a class="dropdown-item" href="#">Argentina (Primera División)</a></li>
+                  <li><a class="dropdown-item" href="#">Mexico (Liga MX)</a></li>
+                </ul>
+                </button>
+            </div>
+            <div class="america">
+                America
+            <button id="brazil" onclick="createSchedule('brazil')">Brazil (Série A)</button>
+            <button id="argentina" onclick="createSchedule('argentina', 1)">Argentina (Primera División)</button>
+            <button id="mexico" onclick="createSchedule('mexico')">Mexico (Liga MX)</button>
+            <button id="unitedStates" onclick="createSchedule('unitedStates', 1)">USA (Major League Soccer)</button>
+            </div>
+        </section>
+        <div clas="container">
+            <div class="row">
+            <p id="schedule" class="col-lg-4"></p>
+            <p id="teams" class="col-lg-6"></p>
+            </div>
+        </div>
+        <script type="module">
+            import {getLeagueTeams} from './SoccerLeagues.js';
+            import {SoccerTeam} from './SoccerLeagues.js';
+            import {SoccerMatch} from './SoccerLeagues.js';
+            import {createSchedule} from './SoccerLeagues.js';
+            import {createStandings} from './SoccerLeagues.js';
+
+            window.createSchedule = function (country, roundRobin = 2) {
+                let leagueTeams = getLeagueTeams(country);
+                let schedule = createSchedule(leagueTeams, roundRobin);
+                printSchedule(schedule);
+                let standings = createStandings(leagueTeams);
+                printStandings(standings);
+                return schedule;
+            }
+            window.printSchedule = function (sched) {
+                document.getElementById('schedule').innerHTML = "";
+                for (let week in sched) {
+                    for (let game in sched[0]) {
+                        sched[week][game].simulateMatch();
+                    }
+                }
+
+                for (let week in sched) {
+                    document.getElementById('schedule').innerHTML += ("&emsp;&emsp;Week " + (+week + 1) + "<br>");
+                    for (let game in sched[week]) {
+                        let gameString = sched[week][game].toString();
+
+                        //If either team is <BYE>, it won't be printed
+                        if (!gameString.includes("<BYE>")) {
+                            document.getElementById('schedule').innerHTML += (sched[week][game].toString() + 
+                                "<br>");
+                        }
+                    }
+                    document.getElementById('schedule').innerHTML += "<br>";
+                }
+            }
+            function printStandings (standings) {
+                let table = document.createElement("table");
+                let tableBody = document.createElement("tbody");
+
+                for (let r = 0; r < standings.length; r++) {
+                    let row = document.createElement("tr");
+                    
+                    for (let c = 0; c < 10; c++) {
+                        let cellType = (r == 0) ? "th" : "td";
+                        //creates data cell or header cell
+                        let cell = document.createElement(cellType); 
+                        let cellText = document.createTextNode(standings[r][c]);
+                        
+                        cell.appendChild(cellText);
+                        row.appendChild(cell);
+                    }
+                    tableBody.appendChild(row);
+                }
+                table.appendChild(tableBody);
+                document.getElementById('teams').innerHTML = "";
+                document.getElementById('teams').appendChild(table);
+                table.setAttribute("border", "1");
+                table.setAttribute("id", "standings");
+                table.setAttribute("class", "table");
+            }
+
+            window.showMenu = function () {
+                document.getElementById("myDropdown").classList.toggle("show");
+            }
+
+        </script>
+    </body>
+</html>

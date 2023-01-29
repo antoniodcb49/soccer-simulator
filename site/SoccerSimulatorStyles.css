@@ -1,0 +1,30 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    background-color: #123524;
+    font-family: sans-serif;
+    color: whitesmoke;
+}
+
+h1 {
+    color: whitesmoke;
+}
+
+button {
+    background-color: white;
+}
+
+button:active {
+    background-color: skyblue;
+}
+
+.dropdown {
+    /*float:left;*/
+    margin: 5px;
+}
+
+.table {
+    color: white;
+}
