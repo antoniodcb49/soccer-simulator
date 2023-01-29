@@ -5,48 +5,40 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>Soccer Simulator</title>
         <link rel="stylesheet" href="css/bootstrap.min.css">
+        <!-- <script src="js/popper.min.js"></script> -->
+        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" ></script>
         <!--<link rel="stylesheet" href="css/styles.css"> -->
+        <script src="js/bootstrap.min.js"></script>
         <link rel="stylesheet" href="SoccerSimulatorStyles.css" />
     </head>
     <body>
         <h1>Select a league to simulate</h2>
-        <section name="leagueNames">
-            <div class="europe">
-                Europe
-            <button id="england" onclick="createSchedule('england')">England (Premier League)</button>
-            <button id="spain" onclick="createSchedule('spain')">Spain (La Liga)</button>
-            <button id="italy" onclick="createSchedule('italy')">Italy (Serie A)</button>
-            <button id="germany" onclick="createSchedule('germany')">Germany (Bundesliga)</button>
-            <button id="france" onclick="createSchedule('france')">France (Ligue 1)</button>
-            <button id="portugal" onclick="createSchedule('portugal')">Portugal (Primeira Liga)</button>
-            <button id="netherlands" onclick="createSchedule('netherlands')">Netherlands (Eredivisie)</button>
-            </div>
+        <section id="team-select">
             <div class="dropdown">
-                <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">Europe</button>
+                <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">Europe
                 <ul class="dropdown-menu">
-                  <li><a class="dropdown-item" href="#">Action</a></li>
-                  <li><a class="dropdown-item" href="#">Another action</a></li>
-                  <li><a class="dropdown-item" href="#">Something else here</a></li>
+                  <li><a class="dropdown-item" onclick="createSchedule('england')">England (Premier League)</a></li>
+                  <li><a class="dropdown-item" onclick="createSchedule('spain')">Spain (La Liga)</a></li>
+                  <li><a class="dropdown-item" onclick="createSchedule('italy')">Italy (Seria A)</a></li>
+                  <li><a class="dropdown-item" onclick="createSchedule('germany')">Germany (Bundeliga)</a></li>
+                  <li><a class="dropdown-item" onclick="createSchedule('france')">France (Ligue 1)</a></li>
+                  <li><a class="dropdown-item" onclick="createSchedule('portugal')">Portugal (Primeira Liga)</a></li>
+                  <li><a class="dropdown-item" onclick="createSchedule('netherlands')">Netherlands (Eredivisie)</a></li>
                 </ul>
+                </button>
             </div>
             <div class="dropdown">
                 <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">America
                 <ul class="dropdown-menu">
-                  <li><a= class="dropdown-item" href="#">Brazil (Série A)</a></li>
-                  <li><a class="dropdown-item" href="#">Argentina (Primera División)</a></li>
-                  <li><a class="dropdown-item" href="#">Mexico (Liga MX)</a></li>
+                  <li><a= class="dropdown-item" onclick="createSchedule('brazil')">Brazil (Série A)</a></li>
+                  <li><a class="dropdown-item" onclick="createSchedule('argentina', 1)">Argentina (Primera División)</a></li>
+                  <li><a class="dropdown-item" onclick="createSchedule('mexico')">Mexico (Liga MX)</a></li>
+                  <li><a class="dropdown-item" onclick="createSchedule('unitedStates', 1)">USA (Major League Soccer)</a></li>
                 </ul>
                 </button>
             </div>
-            <div class="america">
-                America
-            <button id="brazil" onclick="createSchedule('brazil')">Brazil (Série A)</button>
-            <button id="argentina" onclick="createSchedule('argentina', 1)">Argentina (Primera División)</button>
-            <button id="mexico" onclick="createSchedule('mexico')">Mexico (Liga MX)</button>
-            <button id="unitedStates" onclick="createSchedule('unitedStates', 1)">USA (Major League Soccer)</button>
-            </div>
         </section>
-        <div clas="container">
+        <div class="container">
             <div class="row">
             <p id="schedule" class="col-lg-4"></p>
             <p id="teams" class="col-lg-6"></p>

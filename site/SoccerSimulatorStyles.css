@@ -21,10 +21,14 @@ button:active {
 }
 
 .dropdown {
-    /*float:left;*/
     margin: 5px;
+    float: left;
 }
 
 .table {
     color: white;
+}
+
+.container {
+    clear: left;
 }
