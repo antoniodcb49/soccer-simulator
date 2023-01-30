@@ -31,6 +31,8 @@ export class SoccerMatch {
     }
 
     simulateMatch = function() {
+        if (this.homeTeam.teamName == "<BYE>" || this.awayTeam.teamName == "<BYE>")
+            return;
         let diff = this.homeTeam.rating - this.homeTeam.rating;
         let expectedRes = 1 / (Math.pow(10, -1*diff/400) + 1);
         for (let p = 0; p < 20; p++) {
