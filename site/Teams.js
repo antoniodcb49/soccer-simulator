@@ -251,3 +251,17 @@ export let leagues = {
     argentina:arg,
     unitedStates:usa,
 };
+
+export let relegations = {
+    england:3,
+    spain:3,
+    italy:3,
+    germany:2.5,
+    france:4,
+    portugal:2.5,
+    netherlands:2.5,
+    mexico:2,
+    brazil:4,
+    argentina:0,
+    unitedStates:0,
+};

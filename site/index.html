@@ -40,8 +40,8 @@
         </section>
         <div class="container">
             <div class="row">
-            <p id="schedule" class="col-lg-4"></p>
-            <p id="teams" class="col-lg-6"></p>
+            <p id="schedule" class="col-sm-6"></p>
+            <p id="teams" class="col-sm-6"></p>
             </div>
         </div>
         <script type="module">
@@ -50,13 +50,16 @@
             import {SoccerMatch} from './SoccerLeagues.js';
             import {createSchedule} from './SoccerLeagues.js';
             import {createStandings} from './SoccerLeagues.js';
+            import {getRelegations} from './SoccerLeagues.js';
 
             window.createSchedule = function (country, roundRobin = 2) {
                 let leagueTeams = getLeagueTeams(country);
                 let schedule = createSchedule(leagueTeams, roundRobin);
                 printSchedule(schedule);
+                let releg = getRelegations(country);
+                console.log(releg);
                 let standings = createStandings(leagueTeams);
-                printStandings(standings);
+                printStandings(standings, releg);
                 return schedule;
             }
             window.printSchedule = function (sched) {
@@ -81,10 +84,11 @@
                     document.getElementById('schedule').innerHTML += "<br>";
                 }
             }
-            function printStandings (standings) {
+            function printStandings (standings, relegations) {
                 let table = document.createElement("table");
                 let tableBody = document.createElement("tbody");
-
+                
+                let relegationZone = standings.length - relegations;
                 for (let r = 0; r < standings.length; r++) {
                     let row = document.createElement("tr");
                     
@@ -93,9 +97,15 @@
                         //creates data cell or header cell
                         let cell = document.createElement(cellType); 
                         let cellText = document.createTextNode(standings[r][c]);
+                        if (c == 1)
+                            cell.setAttribute("id", standings[r][1].toLowerCase());
                         
                         cell.appendChild(cellText);
                         row.appendChild(cell);
+                        if (r >= relegationZone)
+                            row.setAttribute("class", "table-danger");
+                        if (r == Math.trunc(relegationZone) && row.getAttribute("class") != "table-danger")
+                            row.setAttribute("class", "table-warning");;
                     }
                     tableBody.appendChild(row);
                 }

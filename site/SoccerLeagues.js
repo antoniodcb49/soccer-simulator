@@ -1,4 +1,5 @@
 import {leagues} from './Teams.js';
+import {relegations} from './Teams.js';
 
 export class SoccerTeam {
     constructor (name, rating) {
@@ -30,16 +31,6 @@ export class SoccerMatch {
     }
 
     simulateMatch = function() {
-        if (this.homeTeam.teamName == "<BYE>"){
-            console.log(this.awayTeam.teamName + " is on a bye");    
-            return;
-        }
-        
-        if (this.awayTeam.teamName == "<BYE>") {
-            console.log(this.homeTeam.teamName + " is on a bye");    
-            return;
-        }
-
         let diff = this.homeTeam.rating - this.homeTeam.rating;
         let expectedRes = 1 / (Math.pow(10, -1*diff/400) + 1);
         for (let p = 0; p < 20; p++) {
@@ -104,7 +95,6 @@ export function getLeagueTeams (country) {
         teamArray.push(teamCreated);
     }
 
-    console.log(`teamArray.length: ${teamArray.length}`);
     //Create dummy <BYE> team if the number of teams is odd
     if (teamArray.length % 2 == 1) {
         teamArray.push(new SoccerTeam("<BYE>", 0));
@@ -158,6 +148,10 @@ export function createStandings (teamArray) {
     }
 
     return standings;
+}
+
+export function getRelegations (country) {
+    return relegations[country];
 }
 
 //Sort descending by points, goal diff, goals for, then alphabetically
