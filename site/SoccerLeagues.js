@@ -88,6 +88,70 @@ export class SoccerMatch {
     }
 }
 
+export class SoccerLeague {
+    constructor (country, name, rRobin, numChamp, numSecondary, numRel) {
+        this.country = country;
+        this.leagueTeams = getLeagueTeams(country);
+
+        for (let team in this.leagueTeams) {
+            console.log(this.leagueTeams[team].teamName);
+        }
+
+        this.leagueName = name;
+        this.roundRobin = rRobin;
+        this.numChampions = numChamp;
+        this.numSecondary = numSecondary;
+        this.numRelegations = numRel;
+    }
+
+    createSchedule = function() {
+        let numWeeks = this.roundRobin*(this.leagueTeams.length - 1);
+        let gamesPerWk = this.leagueTeams.length / 2;
+        randomizeTeams(this.leagueTeams);
+
+        let schedule = [];
+        for (let week = 0; week < numWeeks; week++) {
+            //Array of SoccerMatch
+            let currWeek = [];
+            for (let game = 0, team1 = 0, team2 = this.leagueTeams.length - 1; game < gamesPerWk; game++, team1++, team2--) {
+                let match = createSoccerMatch(week, numWeeks, team1, team2, this.leagueTeams);
+                console.log(match.toString());
+                currWeek.push(match);
+            }
+            //Randomize the matches in current week
+            for (let g = 0; g < gamesPerWk; g++){
+                let a = Math.floor(Math.random() * currWeek.length);
+                [currWeek[a], currWeek[g]] = [currWeek[g], currWeek[a]];
+            }
+            rotateTeams(this.leagueTeams);
+            schedule.push(currWeek);
+        }
+        return schedule;
+    }
+
+    createStandings = function () {
+        sortTeams(this.leagueTeams);
+        let standings = [];
+        let header = ['Pos', 'Team', 'GP', 'W', 'D', 'L', 'GF', 'GA', 'GD', 'PTS'];
+        standings.push(header);  
+
+        let teamStats = [];
+        let pos = 1;
+        for (let t = 0; t < this.leagueTeams.length; t++) {
+            if (this.leagueTeams[t].teamName != "<BYE>") {
+                teamStats = [pos, this.leagueTeams[t].teamName, this.leagueTeams[t].gamesPlayed(), 
+                    this.leagueTeams[t].wins, this.leagueTeams[t].draws, this.leagueTeams[t].losses, 
+                    this.leagueTeams[t].goalsFor, this.leagueTeams[t].goalsAgainst, 
+                    this.leagueTeams[t].goalDifference(), this.leagueTeams[t].points()];
+                pos++;
+                standings.push(teamStats);
+            }
+        }
+    
+        return standings;   
+    }
+}
+
 export function getLeagueTeams (country) {
     let teamStrArray = leagues[country].split('\n');
 
@@ -103,53 +167,6 @@ export function getLeagueTeams (country) {
     }
 
     return teamArray;
-}
-
-export function createSchedule (teamArray, roundRobin = 2) {
-    let numWeeks = roundRobin*(teamArray.length - 1);
-    let gamesPerWk = teamArray.length / 2;
-    randomizeTeams(teamArray);
-
-    let schedule = [];
-    for (let week = 0; week < numWeeks; week++) {
-        //console.log('Week ' + (week + 1));
-
-        //Array of SoccerMatch
-        let currWeek = [];
-        for (let game = 0, team1 = 0, team2 = teamArray.length - 1; game < gamesPerWk; game++, team1++, team2--) {
-            let match = createSoccerMatch(week, numWeeks, team1, team2, teamArray);
-
-            currWeek.push(match);
-        }
-        for (let g = 0; g < gamesPerWk; g++){
-            let a = Math.floor(Math.random() * currWeek.length);
-            [currWeek[a], currWeek[g]] = [currWeek[g], currWeek[a]];
-        }
-        rotateTeams(teamArray);
-        schedule.push(currWeek);
-    }
-    return schedule;
-}
-
-export function createStandings (teamArray) {
-    sortTeams(teamArray);
-    let standings = [];
-    let header = ['Pos', 'Team', 'GP', 'W', 'D', 'L', 'GF', 'GA', 'GD', 'PTS'];
-    standings.push(header);
-
-    let teamStats = [];
-    let pos = 1;
-    for (let t = 0; t < teamArray.length; t++) {
-        if (teamArray[t].teamName != "<BYE>") {
-            teamStats = [pos, teamArray[t].teamName, teamArray[t].gamesPlayed(), teamArray[t].wins, 
-                teamArray[t].draws, teamArray[t].losses, teamArray[t].goalsFor, teamArray[t].goalsAgainst, 
-                teamArray[t].goalDifference(), teamArray[t].points()];
-            pos++;
-            standings.push(teamStats);
-        }
-    }
-
-    return standings;
 }
 
 export function getRelegations (country) {
