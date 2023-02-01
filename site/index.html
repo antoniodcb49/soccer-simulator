@@ -66,6 +66,12 @@
                 </ul>
                 </button>
             </div>
+            <div class="container">
+                <button class="print-info" onclick="printSchedule()">Print Schedule</button>
+                <button class="print-info" onclick="printStandings()">Print Standings</button>
+                <button class="print-info" onclick="printWeek()">Print a Week</button>
+                <button class="print-info" onclick="clearInfo()">Clear Info</button>
+            </div>
         </section>
         <div class="container">
             <div class="row">
@@ -73,47 +79,94 @@
             <p id="teams" class="col-sm-6"></p>
             </div>
         </div>
+
         <script type="module">
             import {SoccerTeam} from './SoccerLeagues.js';
             import {SoccerMatch} from './SoccerLeagues.js';
             import {SoccerLeague} from './SoccerLeagues.js';
             import {getRelegations} from './SoccerLeagues.js';
 
+            let league = null;
+            let schedule = null;
+            let standings = null;
+            let leagueSelected = false;
+
             window.createLeague = function (country, name, roundRobin, numChamp, numSecondary, numRel) {
-                let league = new SoccerLeague (country, name, roundRobin, numChamp, numSecondary, numRel);
-                let schedule = league.createSchedule();
-                printSchedule(schedule);
-                let standings = league.createStandings();
-                printStandings(standings, numChamp, numRel);
-                return schedule;
-            }
-            window.printSchedule = function (sched) {
-                document.getElementById('schedule').innerHTML = "";
-                for (let week in sched) {
-                    for (let game in sched[0]) {
-                        sched[week][game].simulateMatch();
+                league = new SoccerLeague (country, name, roundRobin, numChamp, numSecondary, numRel);
+                schedule = league.createSchedule();
+                //printSchedule(schedule);
+                //printStandings(standings, numChamp, numRel);
+
+                for (let week in schedule) {
+                    for (let game in schedule[0]) {
+                        schedule[week][game].simulateMatch();
                     }
                 }
+                standings = league.createStandings();
+                leagueSelected = true;
+                document.getElementById('schedule').innerHTML = "League Selected " + league.country + 
+                    " (" + league.leagueName + ")";
+                document.getElementById('teams').innerHTML = "";
+            }
 
-                for (let week in sched) {
-                    document.getElementById('schedule').innerHTML += ("&emsp;&emsp;Week " + (+week + 1) + "<br>");
-                    for (let game in sched[week]) {
-                        let gameString = sched[week][game].toString();
+            window.printSchedule = function () {
+                if (!leagueSelected) {
+                    alert ("Selecte a league");
+                    return;
+                }
+                let schedString = "";
+
+                for (let week in schedule) {
+                    schedString += ("&emsp;&emsp;Week " + (+week + 1) + "<br>");
+                    for (let game in schedule[week]) {
+                        let gameString = schedule[week][game].toString();
 
                         //If either team is <BYE>, it won't be printed
                         if (!gameString.includes("<BYE>")) {
-                            document.getElementById('schedule').innerHTML += (sched[week][game].toString() + 
+                            schedString += (schedule[week][game].toString() + "<br>");
+                        }
+                    }
+                    schedString += "<br>";
+                    document.getElementById('schedule').innerHTML = schedString;
+                }
+            }
+
+            window.printWeek = function () {
+                if (!leagueSelected) {
+                    alert ("Selecte a league");
+                    return;
+                }
+                let week = undefined;
+                do {
+                    week = +prompt ("Enter a week", 1);
+                }
+                while(week <= 0 || week > schedule.length)
+
+                let weekString = "&emsp;&emsp;Week " + week + "<br>";
+
+                for (let game in schedule[week - 1]) {
+                        let gameString = schedule[week - 1][game].toString();
+
+                        //If either team is <BYE>, it won't be printed
+                        if (!gameString.includes("<BYE>")) {
+                            weekString += (schedule[week - 1][game].toString() + 
                                 "<br>");
                         }
                     }
-                    document.getElementById('schedule').innerHTML += "<br>";
-                }
+                
+                weekString += "<br>";
+                document.getElementById('schedule').innerHTML = weekString;                
             }
-            function printStandings (standings, champions, relegations) {
+
+            window.printStandings = function () {
+                if (!leagueSelected) {
+                    alert ("Selecte a league");
+                    return;
+                }
                 let table = document.createElement("table");
                 let tableBody = document.createElement("tbody");
                 
-                let relegationZone = standings.length - relegations;
+                let relegationZone = standings.length - league.numRelegations;
                 for (let r = 0; r < standings.length; r++) {
                     let row = document.createElement("tr");
                     
@@ -131,7 +184,7 @@
                             row.setAttribute("class", "table-danger");
                         if (r == Math.trunc(relegationZone) && row.getAttribute("class") != "table-danger")
                             row.setAttribute("class", "table-warning");
-                        if (r >= 1 && r <= champions)
+                        if (r >= 1 && r <= league.numChampions)
                             row.setAttribute("class", "table-info");
                     }
                     tableBody.appendChild(row);
@@ -144,8 +197,13 @@
                 table.setAttribute("class", "table");
             }
 
-            window.showMenu = function () {
-                document.getElementById("myDropdown").classList.toggle("show");
+            window.clearInfo = function () {
+                document.getElementById('schedule').innerHTML = "";
+                if (leagueSelected) {
+                    document.getElementById('schedule').innerHTML = "League Selected " + league.country + 
+                        " (" + league.leagueName + ")";
+                }
+                document.getElementById('teams').innerHTML = "";
             }
 
         </script>

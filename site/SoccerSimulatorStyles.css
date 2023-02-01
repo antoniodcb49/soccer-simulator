@@ -31,10 +31,15 @@ button:active {
 
 .container {
     clear: left;
+    margin-left:0;
 }
 
-/* #guadalajara {
-    color: blue;
-    background-color: red;
-    text-decoration: underline white;
+/* #schedule {
+    height:768px;
+    overflow: auto;
 } */
+
+.print-info {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
