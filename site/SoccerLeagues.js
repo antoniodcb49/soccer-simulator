@@ -1,5 +1,4 @@
 import {leagues} from './Teams.js';
-import {relegations} from './Teams.js';
 
 export class SoccerTeam {
     constructor (name, rating) {
@@ -92,11 +91,6 @@ export class SoccerLeague {
     constructor (country, name, rRobin, numChamp, numSecondary, numRel) {
         this.country = country;
         this.leagueTeams = getLeagueTeams(country);
-
-        for (let team in this.leagueTeams) {
-            console.log(this.leagueTeams[team].teamName);
-        }
-
         this.leagueName = name;
         this.roundRobin = rRobin;
         this.numChampions = numChamp;
@@ -115,7 +109,6 @@ export class SoccerLeague {
             let currWeek = [];
             for (let game = 0, team1 = 0, team2 = this.leagueTeams.length - 1; game < gamesPerWk; game++, team1++, team2--) {
                 let match = createSoccerMatch(week, numWeeks, team1, team2, this.leagueTeams);
-                console.log(match.toString());
                 currWeek.push(match);
             }
             //Randomize the matches in current week
@@ -167,10 +160,6 @@ export function getLeagueTeams (country) {
     }
 
     return teamArray;
-}
-
-export function getRelegations (country) {
-    return relegations[country];
 }
 
 //Sort descending by points, goal diff, goals for, then alphabetically

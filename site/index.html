@@ -15,7 +15,6 @@
             import {SoccerTeam} from './SoccerLeagues.js';
             import {SoccerMatch} from './SoccerLeagues.js';
             import {SoccerLeague} from './SoccerLeagues.js';
-            import {getRelegations} from './SoccerLeagues.js';
         </script>
     </head>
     <body>
@@ -24,25 +23,25 @@
             <div class="dropdown">
                 <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">Europe
                 <ul class="dropdown-menu">
-                  <li><a class="dropdown-item" 
+                  <li><a class="dropdown-item" id="england" value="England (Premier League)"
                         onclick="createLeague('england', 'Premier League', 2, 4, 3, 3)">
                         England (Premier League)</a></li>
-                  <li><a class="dropdown-item" 
+                  <li><a class="dropdown-item" id="spain" value="Spain (La Liga)"
                         onclick="createLeague('spain', 'La Liga', 2, 4, 3, 3)">
                         Spain (La Liga)</a></li>
-                  <li><a class="dropdown-item" 
+                  <li><a class="dropdown-item" id="italy" value="Italy (Seria A)"
                         onclick="createLeague('italy', 'Serie A', 2, 4, 3, 3)">
                         Italy (Seria A)</a></li>
-                  <li><a class="dropdown-item" 
+                  <li><a class="dropdown-item" id="germany" value="Germany (Bundeliga)"
                         onclick="createLeague('germany', 'Bundesliga', 2, 4, 3, 2.5)">
                         Germany (Bundeliga)</a></li>
-                  <li><a class="dropdown-item" 
+                  <li><a class="dropdown-item" id="france" value="France (Ligue 1)"
                         onclick="createLeague('france', 'Ligue 1', 2, 3, 3, 4)">
                         France (Ligue 1)</a></li>
-                  <li><a class="dropdown-item" 
+                  <li><a class="dropdown-item" id="portugal" value="Portugal (Primeira Liga)"
                         onclick="createLeague('portugal', 'Primeira Liga', 2, 2, 3, 2.5)">
                         Portugal (Primeira Liga)</a></li>
-                  <li><a class="dropdown-item" 
+                  <li><a class="dropdown-item" id="netherlands" value="Netherlands (Eredivisie)"
                         onclick="createLeague('netherlands', 'Eredivisie', 2, 2, 3, 2.5)">
                         Netherlands (Eredivisie)</a></li>
                 </ul>
@@ -51,40 +50,41 @@
             <div class="dropdown">
                 <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">America
                 <ul class="dropdown-menu">
-                  <li><a= class="dropdown-item" 
+                  <li><a= class="dropdown-item" id="brazil" value="Brazil (Série A)" 
                         onclick="createLeague('brazil', 'Série A', 2, 6, 6, 4)">
                         Brazil (Série A)</a></li>
-                  <li><a class="dropdown-item" 
+                  <li><a class="dropdown-item" id="argentina" value="Argentina (Primera División)" 
                         onclick="createLeague('argentina', 'Primera División', 1, 6, 6, 2)">
                         Argentina (Primera División)</a></li>
-                  <li><a class="dropdown-item" 
+                  <li><a class="dropdown-item" id="mexico" value="Mexico (Liga MX)" 
                         onclick="createLeague('mexico','Liga MX', 1, 4, 0, 0)">
                         Mexico (Liga MX)</a></li>
-                  <li><a class="dropdown-item" 
-                        onclick="createLeague('unitedStates', 'Major League Soccer', 1, 4, 0, 0)">
+                  <li><a class="dropdown-item" id="united_states" value="USA (Major League Soccer)" 
+                        onclick="createLeague('united_states', 'Major League Soccer', 1, 4, 0, 0)">
                         USA (Major League Soccer)</a></li>
                 </ul>
                 </button>
             </div>
-            <div class="container">
-                <button class="print-info" onclick="printSchedule()">Print Schedule</button>
-                <button class="print-info" onclick="printStandings()">Print Standings</button>
-                <button class="print-info" onclick="printWeek()">Print a Week</button>
-                <button class="print-info" onclick="clearInfo()">Clear Info</button>
-            </div>
         </section>
+        <div class="container">
+            <button class="print-info" onclick="printSchedule()">Print Schedule</button>
+            <button class="print-info" onclick="printStandings()">Print Standings</button>
+            <button class="print-info" onclick="printWeek()">Print a Week</button>
+            <button class="print-info" onclick="printTeamSchedule()">Print a Team's Schedule</button>
+            <button class="print-info" onclick="clearInfo()">Clear Info</button>
+            <hr>
+        </div>
         <div class="container">
             <div class="row">
             <p id="schedule" class="col-sm-6"></p>
             <p id="teams" class="col-sm-6"></p>
             </div>
         </div>
-
+        
         <script type="module">
             import {SoccerTeam} from './SoccerLeagues.js';
             import {SoccerMatch} from './SoccerLeagues.js';
             import {SoccerLeague} from './SoccerLeagues.js';
-            import {getRelegations} from './SoccerLeagues.js';
 
             let league = null;
             let schedule = null;
@@ -104,8 +104,9 @@
                 }
                 standings = league.createStandings();
                 leagueSelected = true;
-                document.getElementById('schedule').innerHTML = "League Selected " + league.country + 
-                    " (" + league.leagueName + ")";
+                let leagueName = document.getElementById(String(country)).innerHTML.trim();
+
+                document.getElementById('schedule').innerHTML = "League Selected: " + leagueName;
                 document.getElementById('teams').innerHTML = "";
             }
 
@@ -131,31 +132,62 @@
                 }
             }
 
+            window.printTeamSchedule = function () {
+                let teamToPrint = prompt("Enter team");
+                if (teamToPrint == null) return;
+
+                let schedString = "";
+                for (let week in schedule) {
+                    for (let game in schedule[week]) {
+                        let currentGame = schedule[week][game];
+                        let gameString = currentGame.toString();
+                        if (gameString.includes("<BYE>"))
+                            continue; 
+                        
+                        teamToPrint = teamToPrint.toLowerCase();
+                        let homeTeamName = currentGame.homeTeam.teamName.toLowerCase();
+                        let awayTeamName = currentGame.awayTeam.teamName.toLowerCase();
+
+                        if (teamToPrint.localeCompare(homeTeamName, undefined, {sensitivity:'base'}) == 0 || 
+                            teamToPrint.localeCompare(awayTeamName, undefined, {sensitivity:'base'}) == 0) {
+                            schedString += ("&emsp;&emsp;Week " + (+week + 1) + "<br>" + gameString + '<br>');
+                        }
+                    }
+
+                    schedString += "<br>";
+                    document.getElementById('schedule').innerHTML = schedString;
+                }
+            }
+
             window.printWeek = function () {
                 if (!leagueSelected) {
                     alert ("Selecte a league");
                     return;
                 }
-                let week = undefined;
+
+                let week = null;
                 do {
-                    week = +prompt ("Enter a week", 1);
+                    week = prompt (`Enter a week (between 1 and ${schedule.length})`, 1);
+                    if (week == null) return;
                 }
                 while(week <= 0 || week > schedule.length)
 
-                let weekString = "&emsp;&emsp;Week " + week + "<br>";
+                if (week != null) {
+                    let weekString = "&emsp;&emsp;Week " + week + "<br>";
 
-                for (let game in schedule[week - 1]) {
-                        let gameString = schedule[week - 1][game].toString();
+                    for (let game in schedule[week - 1]) {
+                            let gameString = schedule[week - 1][game].toString();
 
-                        //If either team is <BYE>, it won't be printed
-                        if (!gameString.includes("<BYE>")) {
-                            weekString += (schedule[week - 1][game].toString() + 
-                                "<br>");
+                            //If either team is <BYE>, it won't be printed
+                            if (!gameString.includes("<BYE>")) {
+                                weekString += (schedule[week - 1][game].toString() + 
+                                    "<br>");
+                            }
                         }
-                    }
-                
-                weekString += "<br>";
-                document.getElementById('schedule').innerHTML = weekString;                
+                    
+                    weekString += "<br>";
+                    document.getElementById('schedule').innerHTML = weekString; 
+                }               
             }
 
             window.printStandings = function () {
@@ -199,9 +231,9 @@
 
             window.clearInfo = function () {
                 document.getElementById('schedule').innerHTML = "";
+                let leagueName = document.getElementById(String(league.country)).innerHTML.trim();
                 if (leagueSelected) {
-                    document.getElementById('schedule').innerHTML = "League Selected " + league.country + 
-                        " (" + league.leagueName + ")";
+                    document.getElementById('schedule').innerHTML = "League Selected: " + leagueName;
                 }
                 document.getElementById('teams').innerHTML = "";
             }

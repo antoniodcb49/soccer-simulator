@@ -16,13 +16,23 @@ button {
     background-color: white;
 }
 
-button:active {
+button:hover, .dropdown-item:hover, .dropdown-toggle:hover{
+    background-color:powderblue;
+    color: black;
+}
+button:active, .dropdown-item:active, dropdown-toggle:active {
     background-color: skyblue;
+    color: black;
 }
 
 .dropdown {
     margin: 5px;
     float: left;
+}
+
+.dropdown-toggle {
+    background-color: white;
+    color: black;
 }
 
 .table {
