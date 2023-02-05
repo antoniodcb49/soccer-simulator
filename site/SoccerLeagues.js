@@ -96,6 +96,25 @@ export class SoccerLeague {
         this.numChampions = numChamp;
         this.numSecondary = numSecondary;
         this.numRelegations = numRel;
+        this.schedule = [];
+        this.standings = [];
+        this.currentWeek = 0;
+        this.numWeeks = this.roundRobin*(this.leagueTeams.length - 1);
+        this.simulated = false;
+    }
+
+    simulateNextWeek = function() {
+        if (this.schedule.length == 0)
+            return;
+
+        for (let match in this.schedule[this.currentWeek]) {
+            console.log("Match " + match);
+            this.schedule[this.currentWeek][match].simulateMatch();
+        }
+        this.currentWeek++;
+        //this.createStandings();
+        if (this.currentWeek == this.numWeeks)
+            this.simulated = true;
     }
 
     createSchedule = function() {
@@ -103,7 +122,6 @@ export class SoccerLeague {
         let gamesPerWk = this.leagueTeams.length / 2;
         randomizeTeams(this.leagueTeams);
 
-        let schedule = [];
         for (let week = 0; week < numWeeks; week++) {
             //Array of SoccerMatch
             let currWeek = [];
@@ -117,16 +135,16 @@ export class SoccerLeague {
                 [currWeek[a], currWeek[g]] = [currWeek[g], currWeek[a]];
             }
             rotateTeams(this.leagueTeams);
-            schedule.push(currWeek);
+            this.schedule.push(currWeek);
         }
-        return schedule;
+        return this.schedule;
     }
 
     createStandings = function () {
         sortTeams(this.leagueTeams);
-        let standings = [];
+        this.standings = [];
         let header = ['Pos', 'Team', 'GP', 'W', 'D', 'L', 'GF', 'GA', 'GD', 'PTS'];
-        standings.push(header);  
+        this.standings.push(header);  
 
         let teamStats = [];
         let pos = 1;
@@ -137,11 +155,11 @@ export class SoccerLeague {
                     this.leagueTeams[t].goalsFor, this.leagueTeams[t].goalsAgainst, 
                     this.leagueTeams[t].goalDifference(), this.leagueTeams[t].points()];
                 pos++;
-                standings.push(teamStats);
+                this.standings.push(teamStats);
             }
         }
     
-        return standings;   
+        return this.standings;   
     }
 }
 

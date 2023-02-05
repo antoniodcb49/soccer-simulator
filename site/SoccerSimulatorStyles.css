@@ -39,10 +39,6 @@ button:active, .dropdown-item:active, dropdown-toggle:active {
     color: white;
 }
 
-.container {
-    clear: left;
-    margin-left:0;
-}
 
 /* #schedule {
     height:768px;
@@ -52,4 +48,15 @@ button:active, .dropdown-item:active, dropdown-toggle:active {
 .print-info {
     margin-top: 10px;
     margin-bottom: 10px;
+}
+
+@media (max-width: 767px) {
+    .col-xs-6 {
+        flex: 0 0 auto;
+        width: 50%;
+      }
+    .col-xs-3 {
+        flex: 0 0 auto;
+        width: 25%;
+    }
 }

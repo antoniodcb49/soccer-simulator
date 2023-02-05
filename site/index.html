@@ -18,60 +18,66 @@
         </script>
     </head>
     <body>
-        <h1>Select a league to simulate</h2>
-        <section id="team-select">
-            <div class="dropdown">
-                <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">Europe
-                <ul class="dropdown-menu">
-                  <li><a class="dropdown-item" id="england" value="England (Premier League)"
-                        onclick="createLeague('england', 'Premier League', 2, 4, 3, 3)">
-                        England (Premier League)</a></li>
-                  <li><a class="dropdown-item" id="spain" value="Spain (La Liga)"
-                        onclick="createLeague('spain', 'La Liga', 2, 4, 3, 3)">
-                        Spain (La Liga)</a></li>
-                  <li><a class="dropdown-item" id="italy" value="Italy (Seria A)"
-                        onclick="createLeague('italy', 'Serie A', 2, 4, 3, 3)">
-                        Italy (Seria A)</a></li>
-                  <li><a class="dropdown-item" id="germany" value="Germany (Bundeliga)"
-                        onclick="createLeague('germany', 'Bundesliga', 2, 4, 3, 2.5)">
-                        Germany (Bundeliga)</a></li>
-                  <li><a class="dropdown-item" id="france" value="France (Ligue 1)"
-                        onclick="createLeague('france', 'Ligue 1', 2, 3, 3, 4)">
-                        France (Ligue 1)</a></li>
-                  <li><a class="dropdown-item" id="portugal" value="Portugal (Primeira Liga)"
-                        onclick="createLeague('portugal', 'Primeira Liga', 2, 2, 3, 2.5)">
-                        Portugal (Primeira Liga)</a></li>
-                  <li><a class="dropdown-item" id="netherlands" value="Netherlands (Eredivisie)"
-                        onclick="createLeague('netherlands', 'Eredivisie', 2, 2, 3, 2.5)">
-                        Netherlands (Eredivisie)</a></li>
-                </ul>
-                </button>
-            </div>
-            <div class="dropdown">
-                <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">America
-                <ul class="dropdown-menu">
-                  <li><a= class="dropdown-item" id="brazil" value="Brazil (Série A)" 
-                        onclick="createLeague('brazil', 'Série A', 2, 6, 6, 4)">
-                        Brazil (Série A)</a></li>
-                  <li><a class="dropdown-item" id="argentina" value="Argentina (Primera División)" 
-                        onclick="createLeague('argentina', 'Primera División', 1, 6, 6, 2)">
-                        Argentina (Primera División)</a></li>
-                  <li><a class="dropdown-item" id="mexico" value="Mexico (Liga MX)" 
-                        onclick="createLeague('mexico','Liga MX', 1, 4, 0, 0)">
-                        Mexico (Liga MX)</a></li>
-                  <li><a class="dropdown-item" id="united_states" value="USA (Major League Soccer)" 
-                        onclick="createLeague('united_states', 'Major League Soccer', 1, 4, 0, 0)">
-                        USA (Major League Soccer)</a></li>
-                </ul>
-                </button>
+        <h1 class="text-center">Antonio's Soccer Simulator</h1>
+        <section class="container" id="league-select">
+            <div class="row">
+                <div class="col-md-2 col-xs-3">Select a league</div>
+                <div class="dropdown col-md-2 col-xs-3">
+                    <button title="Select a league" class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">Europe
+                    <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" id="england" value="England (Premier League)"
+                            onclick="createLeague('england', 'Premier League', 2, 4, 3, 3)">
+                            England (Premier League)</a></li>
+                    <li><a class="dropdown-item" id="spain" value="Spain (La Liga)"
+                            onclick="createLeague('spain', 'La Liga', 2, 4, 3, 3)">
+                            Spain (La Liga)</a></li>
+                    <li><a class="dropdown-item" id="italy" value="Italy (Seria A)"
+                            onclick="createLeague('italy', 'Serie A', 2, 4, 3, 3)">
+                            Italy (Seria A)</a></li>
+                    <li><a class="dropdown-item" id="germany" value="Germany (Bundeliga)"
+                            onclick="createLeague('germany', 'Bundesliga', 2, 4, 3, 2.5)">
+                            Germany (Bundeliga)</a></li>
+                    <li><a class="dropdown-item" id="france" value="France (Ligue 1)"
+                            onclick="createLeague('france', 'Ligue 1', 2, 3, 3, 4)">
+                            France (Ligue 1)</a></li>
+                    <li><a class="dropdown-item" id="portugal" value="Portugal (Primeira Liga)"
+                            onclick="createLeague('portugal', 'Primeira Liga', 2, 2, 3, 2.5)">
+                            Portugal (Primeira Liga)</a></li>
+                    <li><a class="dropdown-item" id="netherlands" value="Netherlands (Eredivisie)"
+                            onclick="createLeague('netherlands', 'Eredivisie', 2, 2, 3, 2.5)">
+                            Netherlands (Eredivisie)</a></li>
+                    </ul>
+                    </button>
+                </div>
+                <div class="dropdown col-md-2 col-xs-3">
+                    <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">America
+                    <ul class="dropdown-menu">
+                    <li><a= class="dropdown-item" id="brazil" value="Brazil (Série A)" 
+                            onclick="createLeague('brazil', 'Série A', 2, 6, 6, 4)">
+                            Brazil (Série A)</a></li>
+                    <li><a class="dropdown-item" id="argentina" value="Argentina (Primera División)" 
+                            onclick="createLeague('argentina', 'Primera División', 1, 6, 6, 2)">
+                            Argentina (Primera División)</a></li>
+                    <li><a class="dropdown-item" id="mexico" value="Mexico (Liga MX)" 
+                            onclick="createLeague('mexico','Liga MX', 1, 4, 0, 0)">
+                            Mexico (Liga MX)</a></li>
+                    <li><a class="dropdown-item" id="united_states" value="USA (Major League Soccer)" 
+                            onclick="createLeague('united_states', 'Major League Soccer', 1, 4, 0, 0)">
+                            USA (Major League Soccer)</a></li>
+                    </ul>
+                    </button>
+                </div>
             </div>
         </section>
         <div class="container">
-            <button class="print-info" onclick="printSchedule()">Print Schedule</button>
-            <button class="print-info" onclick="printStandings()">Print Standings</button>
-            <button class="print-info" onclick="printWeek()">Print a Week</button>
-            <button class="print-info" onclick="printTeamSchedule()">Print a Team's Schedule</button>
-            <button class="print-info" onclick="clearInfo()">Clear Info</button>
+            <div class="row">
+                <button class="print-info col-md-2 col-sm-4 col-xs-6" onclick="simulateNextWeek()">Simulate Next Week</button>
+                <button class="print-info col-md-2 col-sm-4 col-xs-6" onclick="printSchedule()">Print Schedule</button>
+                <button class="print-info col-md-2 col-sm-4 col-xs-6" onclick="printStandings()">Print Standings</button>
+                <button class="print-info col-md-2 col-sm-4 col-xs-6" onclick="printWeek()">Print a Week</button>
+                <button class="print-info col-md-2 col-sm-4 col-xs-6" onclick="printTeamSchedule()">Print a Team's Schedule</button>
+                <button class="print-info col-md-2 col-sm-4 col-xs-6" onclick="clearInfo()">Clear Info</button>
+            </div>
             <hr>
         </div>
         <div class="container">
@@ -93,26 +99,32 @@
 
             window.createLeague = function (country, name, roundRobin, numChamp, numSecondary, numRel) {
                 league = new SoccerLeague (country, name, roundRobin, numChamp, numSecondary, numRel);
-                schedule = league.createSchedule();
-                //printSchedule(schedule);
-                //printStandings(standings, numChamp, numRel);
-
-                for (let week in schedule) {
-                    for (let game in schedule[0]) {
-                        schedule[week][game].simulateMatch();
-                    }
-                }
-                standings = league.createStandings();
                 leagueSelected = true;
                 let leagueName = document.getElementById(String(country)).innerHTML.trim();
 
                 document.getElementById('schedule').innerHTML = "League Selected: " + leagueName;
                 document.getElementById('teams').innerHTML = "";
+
+                schedule = league.createSchedule();
+            }
+
+            window.simulateNextWeek = function() {
+                if (!leagueSelected) {
+                    alert ("Select a league");
+                    return;
+                }
+                
+                if (!league.simulated) {
+                    league.simulateNextWeek();
+                    standings = league.createStandings();
+                    printSchedule();
+                    printStandings();
+                }
             }
 
             window.printSchedule = function () {
                 if (!leagueSelected) {
-                    alert ("Selecte a league");
+                    alert ("Select a league");
                     return;
                 }
                 let schedString = "";
@@ -226,7 +238,7 @@
                 document.getElementById('teams').appendChild(table);
                 table.setAttribute("border", "1");
                 table.setAttribute("id", "standings");
-                table.setAttribute("class", "table");
+                table.setAttribute("class", "table table-striped table-dark");
             }
 
             window.clearInfo = function () {
