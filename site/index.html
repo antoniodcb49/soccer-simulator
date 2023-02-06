@@ -20,8 +20,8 @@
     <body>
         <h1 class="text-center">Antonio's Soccer Simulator</h1>
         <section class="container" id="league-select">
-            <div class="row">
-                <div class="col-md-2 col-xs-3">Select a league</div>
+            <div class="row text-center">
+                <div id="select-prompt" class="text-left col-md-3 col-xs-3">Select a league</div>
                 <div class="dropdown col-md-2 col-xs-3">
                     <button title="Select a league" class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">Europe
                     <ul class="dropdown-menu">
@@ -69,9 +69,10 @@
                 </div>
             </div>
         </section>
-        <div class="container">
+        <div class="container options">
             <div class="row">
                 <button class="print-info col-md-2 col-sm-4 col-xs-6" onclick="simulateNextWeek()">Simulate Next Week</button>
+                <button class="print-info col-md-2 col-sm-4 col-xs-6" onclick="simulateWholeSeason()">Simulate Whole Season</button>
                 <button class="print-info col-md-2 col-sm-4 col-xs-6" onclick="printSchedule()">Print Schedule</button>
                 <button class="print-info col-md-2 col-sm-4 col-xs-6" onclick="printStandings()">Print Standings</button>
                 <button class="print-info col-md-2 col-sm-4 col-xs-6" onclick="printWeek()">Print a Week</button>
@@ -106,6 +107,7 @@
                 document.getElementById('teams').innerHTML = "";
 
                 schedule = league.createSchedule();
+                standings = league.createStandings();
             }
 
             window.simulateNextWeek = function() {
@@ -120,6 +122,20 @@
                     printSchedule();
                     printStandings();
                 }
+            }
+
+            window.simulateWholeSeason = function() {
+                if (!leagueSelected) {
+                    alert ("Select a league");
+                    return;
+                }
+
+                while(!league.simulated) {
+                    league.simulateNextWeek();
+                }
+                standings = league.createStandings();
+                printSchedule();
+                printStandings();
             }
 
             window.printSchedule = function () {
@@ -150,19 +166,24 @@
 
                 let schedString = "";
                 for (let week in schedule) {
+                    schedString +="&emsp;&emsp;Week " + (+week + 1) + "<br>";
                     for (let game in schedule[week]) {
                         let currentGame = schedule[week][game];
                         let gameString = currentGame.toString();
                         if (gameString.includes("<BYE>"))
                             continue; 
                         
-                        teamToPrint = teamToPrint.toLowerCase();
-                        let homeTeamName = currentGame.homeTeam.teamName.toLowerCase();
-                        let awayTeamName = currentGame.awayTeam.teamName.toLowerCase();
+                        teamToPrint = teamToPrint.toLocaleLowerCase("en-US").trim();
+                        let homeTeamName = currentGame.homeTeam.teamName.toLocaleLowerCase("en-US");
+                        let awayTeamName = currentGame.awayTeam.teamName.toLocaleLowerCase("en-US");
 
-                        if (teamToPrint.localeCompare(homeTeamName, undefined, {sensitivity:'base'}) == 0 || 
+                        /* if (teamToPrint.localeCompare(homeTeamName, undefined, {sensitivity:'base'}) == 0 || 
                             teamToPrint.localeCompare(awayTeamName, undefined, {sensitivity:'base'}) == 0) {
                             schedString += ("&emsp;&emsp;Week " + (+week + 1) + "<br>" + gameString + '<br>');
+                        } */
+                        
+                        if (homeTeamName.includes(teamToPrint) || awayTeamName.includes(teamToPrint)) {
+                            schedString +=  gameString + '<br>';
                         }
                     }
 

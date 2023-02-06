@@ -108,7 +108,6 @@ export class SoccerLeague {
             return;
 
         for (let match in this.schedule[this.currentWeek]) {
-            console.log("Match " + match);
             this.schedule[this.currentWeek][match].simulateMatch();
         }
         this.currentWeek++;
