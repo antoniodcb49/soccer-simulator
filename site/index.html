@@ -10,12 +10,6 @@
         <!--<link rel="stylesheet" href="css/styles.css"> -->
         <script src="js/bootstrap.min.js"></script>
         <link rel="stylesheet" href="SoccerSimulatorStyles.css" />
-        <script type="module">
-            import {getLeagueTeams} from './SoccerLeagues.js';
-            import {SoccerTeam} from './SoccerLeagues.js';
-            import {SoccerMatch} from './SoccerLeagues.js';
-            import {SoccerLeague} from './SoccerLeagues.js';
-        </script>
     </head>
     <body>
         <h1 class="text-center">Antonio's Soccer Simulator</h1>
@@ -27,25 +21,32 @@
                     <ul class="dropdown-menu">
                     <li><a class="dropdown-item" id="england" value="England (Premier League)"
                             onclick="createLeague('england', 'Premier League', 2, 4, 3, 3)">
+                            <img src="images/Europe Flags/england_flag.jpg" width="25px" alt="Premier League">
                             England (Premier League)</a></li>
                     <li><a class="dropdown-item" id="spain" value="Spain (La Liga)"
                             onclick="createLeague('spain', 'La Liga', 2, 4, 3, 3)">
+                            <img src="images/Europe Flags/spain_flag.jpg" width="25px" alt="La Liga">
                             Spain (La Liga)</a></li>
-                    <li><a class="dropdown-item" id="italy" value="Italy (Seria A)"
+                    <li><a class="dropdown-item" id="italy" value="Italy (Serie A)"
                             onclick="createLeague('italy', 'Serie A', 2, 4, 3, 3)">
-                            Italy (Seria A)</a></li>
+                            <img src="images/Europe Flags/italy_flag.jpg" width="25px" alt="Serie A">
+                            Italy (Serie A)</a></li>
                     <li><a class="dropdown-item" id="germany" value="Germany (Bundeliga)"
                             onclick="createLeague('germany', 'Bundesliga', 2, 4, 3, 2.5)">
-                            Germany (Bundeliga)</a></li>
+                            <img src="images/Europe Flags/germany_flag.jpg" width="25px" alt="Bundesliga">
+                            Germany (Bundesliga)</a></li>
                     <li><a class="dropdown-item" id="france" value="France (Ligue 1)"
-                            onclick="createLeague('france', 'Ligue 1', 2, 3, 3, 4)">
+                        onclick="createLeague('france', 'Ligue 1', 2, 3, 3, 4)">
+                        <img src="images/Europe Flags/france_flag.jpg" width="25px" alt="Ligue 1">
                             France (Ligue 1)</a></li>
                     <li><a class="dropdown-item" id="portugal" value="Portugal (Primeira Liga)"
                             onclick="createLeague('portugal', 'Primeira Liga', 2, 2, 3, 2.5)">
+                            <img src="images/Europe Flags/portugal_flag.jpg" width="25px" alt="Primeira Liga">
                             Portugal (Primeira Liga)</a></li>
                     <li><a class="dropdown-item" id="netherlands" value="Netherlands (Eredivisie)"
-                            onclick="createLeague('netherlands', 'Eredivisie', 2, 2, 3, 2.5)">
-                            Netherlands (Eredivisie)</a></li>
+                          onclick="createLeague('netherlands', 'Eredivisie', 2, 2, 3, 2.5)">
+                          <img src="images/Europe Flags/netherlands_flag.jpg" width="25px" alt="Eredivisie">
+                           Netherlands (Eredivisie)</a></li>
                     </ul>
                     </button>
                 </div>
@@ -54,15 +55,19 @@
                     <ul class="dropdown-menu">
                     <li><a= class="dropdown-item" id="brazil" value="Brazil (Série A)" 
                             onclick="createLeague('brazil', 'Série A', 2, 6, 6, 4)">
+                            <img src="images/America Flags/brazil_flag.jpg" width="25px" alt="Série A">
                             Brazil (Série A)</a></li>
                     <li><a class="dropdown-item" id="argentina" value="Argentina (Primera División)" 
                             onclick="createLeague('argentina', 'Primera División', 1, 6, 6, 2)">
+                            <img src="images/America Flags/argentina_flag.jpg" width="25px" alt="Primera División">
                             Argentina (Primera División)</a></li>
                     <li><a class="dropdown-item" id="mexico" value="Mexico (Liga MX)" 
                             onclick="createLeague('mexico','Liga MX', 1, 4, 0, 0)">
+                            <img src="images/America Flags/mexico_flag.jpg" width="25px" alt="Liga MX">
                             Mexico (Liga MX)</a></li>
                     <li><a class="dropdown-item" id="united_states" value="USA (Major League Soccer)" 
                             onclick="createLeague('united_states', 'Major League Soccer', 1, 4, 0, 0)">
+                            <img src="images/America Flags/usa_flag.jpg" width="25px" alt="Major League Soccer">
                             USA (Major League Soccer)</a></li>
                     </ul>
                     </button>
@@ -72,10 +77,10 @@
         <div class="container options">
             <div class="row">
                 <button class="print-info col-md-2 col-sm-4 col-xs-6" onclick="simulateNextWeek()">Simulate Next Week</button>
-                <button class="print-info col-md-2 col-sm-4 col-xs-6" onclick="simulateWholeSeason()">Simulate Whole Season</button>
+                <button class="print-info col-md-2 col-sm-4 col-xs-6" onclick="simulateWholeSeason()">Simulate Season</button>
                 <button class="print-info col-md-2 col-sm-4 col-xs-6" onclick="printSchedule()">Print Schedule</button>
                 <button class="print-info col-md-2 col-sm-4 col-xs-6" onclick="printStandings()">Print Standings</button>
-                <button class="print-info col-md-2 col-sm-4 col-xs-6" onclick="printWeek()">Print a Week</button>
+                <button class="print-info col-md-2 col-sm-4 col-xs-6" onclick="printWeek(null)">Print a Week</button>
                 <button class="print-info col-md-2 col-sm-4 col-xs-6" onclick="printTeamSchedule()">Print a Team's Schedule</button>
                 <button class="print-info col-md-2 col-sm-4 col-xs-6" onclick="clearInfo()">Clear Info</button>
             </div>
@@ -108,6 +113,7 @@
 
                 schedule = league.createSchedule();
                 standings = league.createStandings();
+                printStandings();
             }
 
             window.simulateNextWeek = function() {
@@ -119,7 +125,7 @@
                 if (!league.simulated) {
                     league.simulateNextWeek();
                     standings = league.createStandings();
-                    printSchedule();
+                    printWeek(league.currentWeek);
                     printStandings();
                 }
             }
@@ -161,6 +167,11 @@
             }
 
             window.printTeamSchedule = function () {
+                if (!leagueSelected) {
+                    alert ("Select a league");
+                    return;
+                }
+
                 let teamToPrint = prompt("Enter team");
                 if (teamToPrint == null) return;
 
@@ -177,11 +188,6 @@
                         let homeTeamName = currentGame.homeTeam.teamName.toLocaleLowerCase("en-US");
                         let awayTeamName = currentGame.awayTeam.teamName.toLocaleLowerCase("en-US");
 
-                        /* if (teamToPrint.localeCompare(homeTeamName, undefined, {sensitivity:'base'}) == 0 || 
-                            teamToPrint.localeCompare(awayTeamName, undefined, {sensitivity:'base'}) == 0) {
-                            schedString += ("&emsp;&emsp;Week " + (+week + 1) + "<br>" + gameString + '<br>');
-                        } */
-                        
                         if (homeTeamName.includes(teamToPrint) || awayTeamName.includes(teamToPrint)) {
                             schedString +=  gameString + '<br>';
                         }
@@ -192,28 +198,28 @@
                 }
             }
 
-            window.printWeek = function () {
+            window.printWeek = function (weekToPrint) {
                 if (!leagueSelected) {
                     alert ("Selecte a league");
                     return;
                 }
 
-                let week = null;
-                do {
-                    week = prompt (`Enter a week (between 1 and ${schedule.length})`, 1);
-                    if (week == null) return;
-                }
-                while(week <= 0 || week > schedule.length)
+                if (weekToPrint == null)
+                    do {
+                        weekToPrint = prompt (`Enter a week (between 1 and ${schedule.length})`, 1);
+                        if (weekToPrint == null) return;
+                    }
+                    while(weekToPrint <= 0 || weekToPrint > schedule.length)
 
-                if (week != null) {
-                    let weekString = "&emsp;&emsp;Week " + week + "<br>";
+                if (weekToPrint != null) {
+                    let weekString = "&emsp;&emsp;Week " + weekToPrint + "<br>";
 
-                    for (let game in schedule[week - 1]) {
-                            let gameString = schedule[week - 1][game].toString();
+                    for (let game in schedule[weekToPrint - 1]) {
+                            let gameString = schedule[weekToPrint - 1][game].toString();
 
                             //If either team is <BYE>, it won't be printed
                             if (!gameString.includes("<BYE>")) {
-                                weekString += (schedule[week - 1][game].toString() + 
+                                weekString += (schedule[weekToPrint - 1][game].toString() + 
                                     "<br>");
                             }
                         }
