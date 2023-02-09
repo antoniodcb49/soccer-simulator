@@ -107,8 +107,8 @@ export class SoccerLeague {
         if (this.schedule.length == 0)
             return;
 
-        for (let match in this.schedule[this.currentWeek]) {
-            this.schedule[this.currentWeek][match].simulateMatch();
+        for (let match of this.schedule[this.currentWeek]) {
+            match.simulateMatch();
         }
         this.currentWeek++;
         //this.createStandings();
@@ -147,12 +147,11 @@ export class SoccerLeague {
 
         let teamStats = [];
         let pos = 1;
-        for (let t = 0; t < this.leagueTeams.length; t++) {
-            if (this.leagueTeams[t].teamName != "<BYE>") {
-                teamStats = [pos, this.leagueTeams[t].teamName, this.leagueTeams[t].gamesPlayed(), 
-                    this.leagueTeams[t].wins, this.leagueTeams[t].draws, this.leagueTeams[t].losses, 
-                    this.leagueTeams[t].goalsFor, this.leagueTeams[t].goalsAgainst, 
-                    this.leagueTeams[t].goalDifference(), this.leagueTeams[t].points()];
+        for (let team of this.leagueTeams) {
+            if (team.teamName != "<BYE>") {
+                teamStats = [pos, team.teamName, team.gamesPlayed(), team.wins, team.draws, team.losses,
+                    team.goalsFor, team.goalsAgainst, team.goalDifference(), team.points()];
+                
                 pos++;
                 this.standings.push(teamStats);
             }
@@ -166,8 +165,8 @@ export function getLeagueTeams (country) {
     let teamStrArray = leagues[country].split('\n');
 
     let teamArray = [];
-    for (let team in teamStrArray) {
-        let teamCreated = new SoccerTeam(teamStrArray[team], 1500);
+    for (let teamStr of teamStrArray) {
+        let teamCreated = new SoccerTeam(teamStr, 1500);
         teamArray.push(teamCreated);
     }
 

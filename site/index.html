@@ -81,7 +81,7 @@
                 <button class="print-info col-md-2 col-sm-4 col-xs-6" onclick="printSchedule()">Print Schedule</button>
                 <button class="print-info col-md-2 col-sm-4 col-xs-6" onclick="printStandings()">Print Standings</button>
                 <button class="print-info col-md-2 col-sm-4 col-xs-6" onclick="printWeek(null)">Print a Week</button>
-                <button class="print-info col-md-2 col-sm-4 col-xs-6" onclick="printTeamSchedule()">Print a Team's Schedule</button>
+                <!-- <button class="print-info col-md-2 col-sm-4 col-xs-6" onclick="printTeamSchedule(null)">Print a Team's Schedule</button> -->
                 <button class="print-info col-md-2 col-sm-4 col-xs-6" onclick="clearInfo()">Clear Info</button>
             </div>
             <hr>
@@ -106,7 +106,7 @@
             window.createLeague = function (country, name, roundRobin, numChamp, numSecondary, numRel) {
                 league = new SoccerLeague (country, name, roundRobin, numChamp, numSecondary, numRel);
                 leagueSelected = true;
-                let leagueName = document.getElementById(String(country)).innerHTML.trim();
+                let leagueName = document.getElementById(String(country)).innerText.trim();
 
                 document.getElementById('schedule').innerHTML = "League Selected: " + leagueName;
                 document.getElementById('teams').innerHTML = "";
@@ -153,12 +153,12 @@
 
                 for (let week in schedule) {
                     schedString += ("&emsp;&emsp;Week " + (+week + 1) + "<br>");
-                    for (let game in schedule[week]) {
-                        let gameString = schedule[week][game].toString();
+                    for (let game of schedule[week]) {
+                        let gameString = game.toString();
 
                         //If either team is <BYE>, it won't be printed
                         if (!gameString.includes("<BYE>")) {
-                            schedString += (schedule[week][game].toString() + "<br>");
+                            schedString += (game.toString() + "<br>");
                         }
                     }
                     schedString += "<br>";
@@ -166,14 +166,17 @@
                 }
             }
 
-            window.printTeamSchedule = function () {
+            window.printTeamSchedule = function (teamToPrint) {
+                console.log("printTeamSchedule called" + teamToPrint);
                 if (!leagueSelected) {
                     alert ("Select a league");
                     return;
                 }
-
-                let teamToPrint = prompt("Enter team");
-                if (teamToPrint == null) return;
+                 
+                if (teamToPrint == null) {
+                    teamToPrint = prompt("Enter team");
+                    if (teamToPrint == null) return;
+                }
 
                 let schedString = "";
                 for (let week in schedule) {
@@ -214,13 +217,12 @@
                 if (weekToPrint != null) {
                     let weekString = "&emsp;&emsp;Week " + weekToPrint + "<br>";
 
-                    for (let game in schedule[weekToPrint - 1]) {
-                            let gameString = schedule[weekToPrint - 1][game].toString();
+                    for (let game of schedule[weekToPrint - 1]) {
+                            let gameString = game.toString();
 
                             //If either team is <BYE>, it won't be printed
                             if (!gameString.includes("<BYE>")) {
-                                weekString += (schedule[weekToPrint - 1][game].toString() + 
-                                    "<br>");
+                                weekString += (game.toString() + "<br>");
                             }
                         }
                     
@@ -231,11 +233,12 @@
 
             window.printStandings = function () {
                 if (!leagueSelected) {
-                    alert ("Selecte a league");
+                    alert ("Select a league");
                     return;
                 }
                 let table = document.createElement("table");
                 let tableBody = document.createElement("tbody");
+                
                 
                 let relegationZone = standings.length - league.numRelegations;
                 for (let r = 0; r < standings.length; r++) {
@@ -245,12 +248,18 @@
                         let cellType = (r == 0) ? "th" : "td";
                         //creates data cell or header cell
                         let cell = document.createElement(cellType); 
-                        let cellText = document.createTextNode(standings[r][c]);
+                        let teamStr = standings[r][c]
+                        let cellTextNode = document.createTextNode(teamStr);
+  
                         if (c == 1)
-                            cell.setAttribute("id", standings[r][1].toLowerCase());
+                            cell.setAttribute("id", standings[r][1].toLowerCase())
                         
-                        cell.appendChild(cellText);
+                        cell.appendChild(cellTextNode);
                         row.appendChild(cell);
+                        if (c == 1 && r != 0) {
+                            cell.addEventListener("click", function () {printTeamSchedule(teamStr)});
+                        }
+
                         if (r >= relegationZone)
                             row.setAttribute("class", "table-danger");
                         if (r == Math.trunc(relegationZone) && row.getAttribute("class") != "table-danger")
@@ -265,12 +274,12 @@
                 document.getElementById('teams').appendChild(table);
                 table.setAttribute("border", "1");
                 table.setAttribute("id", "standings");
-                table.setAttribute("class", "table table-striped table-dark");
+                table.setAttribute("class", "table table-dark");
             }
 
             window.clearInfo = function () {
                 document.getElementById('schedule').innerHTML = "";
-                let leagueName = document.getElementById(String(league.country)).innerHTML.trim();
+                let leagueName = document.getElementById(String(league.country)).innerText.trim();
                 if (leagueSelected) {
                     document.getElementById('schedule').innerHTML = "League Selected: " + leagueName;
                 }
