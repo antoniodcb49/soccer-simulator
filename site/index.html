@@ -81,7 +81,6 @@
                 <button class="print-info col-md-2 col-sm-4 col-xs-6" onclick="printSchedule()">Print Schedule</button>
                 <button class="print-info col-md-2 col-sm-4 col-xs-6" onclick="printStandings()">Print Standings</button>
                 <button class="print-info col-md-2 col-sm-4 col-xs-6" onclick="printWeek(null)">Print a Week</button>
-                <!-- <button class="print-info col-md-2 col-sm-4 col-xs-6" onclick="printTeamSchedule(null)">Print a Team's Schedule</button> -->
                 <button class="print-info col-md-2 col-sm-4 col-xs-6" onclick="clearInfo()">Clear Info</button>
             </div>
             <hr>
@@ -180,23 +179,22 @@
 
                 let schedString = "";
                 for (let week in schedule) {
-                    schedString +="&emsp;&emsp;Week " + (+week + 1) + "<br>";
-                    for (let game in schedule[week]) {
-                        let currentGame = schedule[week][game];
-                        let gameString = currentGame.toString();
-                        if (gameString.includes("<BYE>"))
-                            continue; 
-                        
-                        teamToPrint = teamToPrint.toLocaleLowerCase("en-US").trim();
-                        let homeTeamName = currentGame.homeTeam.teamName.toLocaleLowerCase("en-US");
-                        let awayTeamName = currentGame.awayTeam.teamName.toLocaleLowerCase("en-US");
+                    schedString +="Week " + (+week + 1) + ": ";
+                    for (let game of schedule[week]) {
+                        let gameString = game.toString();
+                        teamToPrint = teamToPrint.trim();
 
-                        if (homeTeamName.includes(teamToPrint) || awayTeamName.includes(teamToPrint)) {
-                            schedString +=  gameString + '<br>';
+                        if (gameString.includes(teamToPrint)) {
+                            if (gameString.includes("<BYE>")) {
+                                schedString += "Bye Week<br>";
+                            }
+                            else {
+                                schedString +=  gameString + '<br>';
+                            }
                         }
                     }
 
-                    schedString += "<br>";
+                    //schedString += "<br>";
                     document.getElementById('schedule').innerHTML = schedString;
                 }
             }
@@ -251,14 +249,14 @@
                         let teamStr = standings[r][c]
                         let cellTextNode = document.createTextNode(teamStr);
   
-                        if (c == 1)
-                            cell.setAttribute("id", standings[r][1].toLowerCase())
+                        if (c == 1 && r != 0) {
+                            cell.setAttribute("id", standings[r][1].toLowerCase());
+                            cell.setAttribute("class", "team-name");
+                            cell.addEventListener("click", function () {printTeamSchedule(teamStr)});
+                        }
                         
                         cell.appendChild(cellTextNode);
                         row.appendChild(cell);
-                        if (c == 1 && r != 0) {
-                            cell.addEventListener("click", function () {printTeamSchedule(teamStr)});
-                        }
 
                         if (r >= relegationZone)
                             row.setAttribute("class", "table-danger");

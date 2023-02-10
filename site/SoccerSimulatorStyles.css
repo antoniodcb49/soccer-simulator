@@ -16,10 +16,12 @@ button {
     background-color: white;
 }
 
-button:hover, .dropdown-item:hover, .dropdown-toggle:hover{
+button:hover, .dropdown-item:hover, .dropdown-toggle:hover, .team-name:hover{
     background-color:powderblue;
     color: black;
+    cursor:pointer;
 }
+
 button:active, .dropdown-item:active, dropdown-toggle:active {
     background-color: skyblue;
     color: black;
@@ -49,6 +51,10 @@ button:active, .dropdown-item:active, dropdown-toggle:active {
 
 #select-prompt {
     font-size: 1.2em;
+}
+
+.team-name:active {
+    background-color: skyblue;
 }
 
 h1 {
