@@ -140,23 +140,23 @@ Cambuur
 Volendam`;
 
 let mex = `América
-Guadalajara
-Cruz Azul
-Pumas UNAM
-Tigres UANL
-Monterrey
-Tijuana
-Juárez
-Atlético San Luis
-Querétaro
-León
-Toluca
-Mazatlán
-Puebla
-Pachuca
 Atlas
+Atlético San Luis
+Cruz Azul
+Guadalajara
+Juárez
+León
+Mazatlán
+Monterrey
+Necaxa
+Pachuca
+Puebla
+Pumas UNAM
+Querétaro
 Santos Laguna
-Necaxa`;
+Tigres UANL
+Tijuana
+Toluca`; 
 
 let bra = `América Mineiro
 Athletico Paranaense

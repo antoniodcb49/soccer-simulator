@@ -116,26 +116,118 @@ export class SoccerLeague {
             this.simulated = true;
     }
 
-    createSchedule = function() {
-        let numWeeks = this.roundRobin*(this.leagueTeams.length - 1);
-        let gamesPerWk = this.leagueTeams.length / 2;
+    createSchedule = function (){
+        let numTeams = this.leagueTeams.length;
+        let numRounds = numTeams - 1;
+        let gamesPerRd = numTeams / 2;
         randomizeTeams(this.leagueTeams);
 
-        for (let week = 0; week < numWeeks; week++) {
-            //Array of SoccerMatch
-            let currWeek = [];
-            for (let game = 0, team1 = 0, team2 = this.leagueTeams.length - 1; game < gamesPerWk; game++, team1++, team2--) {
-                let match = createSoccerMatch(week, numWeeks, team1, team2, this.leagueTeams);
-                currWeek.push(match);
-            }
-            //Randomize the matches in current week
-            for (let g = 0; g < gamesPerWk; g++){
-                let a = Math.floor(Math.random() * currWeek.length);
-                [currWeek[a], currWeek[g]] = [currWeek[g], currWeek[a]];
-            }
-            rotateTeams(this.leagueTeams);
-            this.schedule.push(currWeek);
+        //Create Table 1
+        let table1 = [];
+        let count = 0;
+        for (let r1 = 0; r1 < numRounds; r1++) {
+          let round = [];
+          for (let g1 = 0; g1 < gamesPerRd; g1++) {
+            round.push(this.leagueTeams[count % (numRounds)]);
+            count++;
+          }
+          table1.push(round);
         }
+        //Finish creating Table 1
+        
+        //Create Table 2
+        let table2 = [];
+        for (let r1 = 1; r1 < numRounds; r1++){
+          let round2 = [];
+          for (let g1 = gamesPerRd - 1; g1 >= 0; g1--) {
+            round2.push(table1[r1][g1]);
+          }
+          table2.push(round2);
+        }    
+        
+            //Push the first row of table1 into the last row of table2
+        let round2 = [];
+        for (let g1 = gamesPerRd - 1; g1 >= 0; g1--) {
+            round2.push(table1[0][g1]);
+        }
+        table2.push(round2);
+        //Finish creating Table 2
+        
+        //Create final schedule
+        this.schedule = [];
+            //Create first cycle of Round Robin (every team plays numRounds games)
+        for (let r = 0; r < numRounds; r++) {
+          let round = [];
+          for (let g = 0; g < gamesPerRd; g++) {
+            if (g == 0) {
+              if (r % 2 == 0) {
+                round.push(new SoccerMatch(this.leagueTeams[(numRounds)], table2[r][g]));
+              }
+              else {
+                round.push(new SoccerMatch(table1[r][g], this.leagueTeams[(numRounds)]));
+              }
+            }else {
+              round.push(new SoccerMatch(table1[r][g], table2[r][g]));
+            }
+          }       
+          //Randomize matches in current week
+          for (let g = 0; g < gamesPerRd; g++){
+            let a = Math.floor(Math.random() * round.length);
+            [round[a], round[g]] = [round[g], round[a]];
+          }
+          this.schedule.push(round);
+        }    
+        
+            //Creates 2nd cycle of round robin (if it's double round robin)
+        if (this.roundRobin == 2) {
+          for (let r = 1; r < numRounds; r++) {
+            let round = [];
+            for (let g = 0; g < gamesPerRd; g++) {
+                let game = this.schedule[r][g];
+                round.push(new SoccerMatch(game.awayTeam, game.homeTeam));
+            }
+
+           //Randomize matches in current week
+          for (let g = 0; g < gamesPerRd; g++){
+            let a = Math.floor(Math.random() * round.length);
+            [round[a], round[g]] = [round[g], round[a]];
+          }
+          this.schedule.push(round);
+        }
+            //End 2nd cycle
+                //The final round is the opposite of the 1st round
+            let round = [];
+            for (let g = 0; g < gamesPerRd; g++) {
+                let game = this.schedule[0][g];
+                round.push(new SoccerMatch(game.awayTeam, game.homeTeam));
+            }
+ 
+                //Randomize matches in final round
+            for (let g = 0; g < gamesPerRd; g++){
+                let a = Math.floor(Math.random() * round.length);
+                [round[a], round[g]] = [round[g], round[a]];
+            }            
+            this.schedule.push(round);      
+            
+            console.log("Double Schedule");
+            for (let rou in this.schedule) {
+                console.log("Round " + (+rou + 1));
+                for (let gam in this.schedule[rou]) {
+                    console.log(this.schedule[rou][gam].toString());
+                }
+                console.log("\n");
+            }
+                //End final round
+        }
+
+        for (let rou in this.schedule) {
+            console.log("Round " + (+rou + 1));
+            for (let gam in this.schedule[rou]) {
+                console.log(this.schedule[rou][gam].toString());
+            }
+            console.log("\n");
+        }
+
         return this.schedule;
     }
 
