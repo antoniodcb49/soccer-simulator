@@ -133,7 +133,6 @@ export class SoccerLeague {
           }
           table1.push(round);
         }
-        //Finish creating Table 1
         
         //Create Table 2
         let table2 = [];
@@ -166,58 +165,28 @@ export class SoccerLeague {
               else {
                 round.push(new SoccerMatch(table1[r][g], this.leagueTeams[(numRounds)]));
               }
-            }else {
+            }
+            else {
               round.push(new SoccerMatch(table1[r][g], table2[r][g]));
             }
           }       
-          //Randomize matches in current week
-          for (let g = 0; g < gamesPerRd; g++){
-            let a = Math.floor(Math.random() * round.length);
-            [round[a], round[g]] = [round[g], round[a]];
-          }
-          this.schedule.push(round);
-        }    
-        
-            //Creates 2nd cycle of round robin (if it's double round robin)
-        if (this.roundRobin == 2) {
-          for (let r = 1; r < numRounds; r++) {
-            let round = [];
-            for (let g = 0; g < gamesPerRd; g++) {
-                let game = this.schedule[r][g];
-                round.push(new SoccerMatch(game.awayTeam, game.homeTeam));
-            }
 
-           //Randomize matches in current week
-          for (let g = 0; g < gamesPerRd; g++){
-            let a = Math.floor(Math.random() * round.length);
-            [round[a], round[g]] = [round[g], round[a]];
-          }
+          this.randomizeRound(round);
           this.schedule.push(round);
         }
-            //End 2nd cycle
-                //The final round is the opposite of the 1st round
-            let round = [];
-            for (let g = 0; g < gamesPerRd; g++) {
-                let game = this.schedule[0][g];
-                round.push(new SoccerMatch(game.awayTeam, game.homeTeam));
+        
+        //If this is a double round robin (or triple, quadruple, etc...)
+        //This portion creates the next cycles
+        let cyclesCreated = 1; //A single round robin so far
+        let prevCycle = Object.assign({}, this.schedule);
+
+        while (cyclesCreated < this.roundRobin) {
+            let nextCycle = this.createNextCycle(prevCycle);
+            for (let r = 0; r < numRounds; r++) {
+                this.schedule.push(nextCycle[r]);
             }
- 
-                //Randomize matches in final round
-            for (let g = 0; g < gamesPerRd; g++){
-                let a = Math.floor(Math.random() * round.length);
-                [round[a], round[g]] = [round[g], round[a]];
-            }            
-            this.schedule.push(round);      
-            
-            console.log("Double Schedule");
-            for (let rou in this.schedule) {
-                console.log("Round " + (+rou + 1));
-                for (let gam in this.schedule[rou]) {
-                    console.log(this.schedule[rou][gam].toString());
-                }
-                console.log("\n");
-            }
-                //End final round
+            cyclesCreated++;
+            prevCycle = Object.assign({}, nextCycle);
         }
 
         for (let rou in this.schedule) {
@@ -229,6 +198,48 @@ export class SoccerLeague {
         }
 
         return this.schedule;
+    }
+
+    //prevCycle and newCycle are 2D SoccerMatch arrays, just like this.schedule
+    //row 0 of newCycle will be row 1 of prevCycle with home and away teams flipped
+    //last row of newCycle will be row 0 of prevCycle
+    createNextCycle = function (prevCycle) {
+        let newCycle = [];
+        let numTeams = this.leagueTeams.length;
+        let numRounds = numTeams - 1;
+        let gamesPerRd = numTeams / 2;
+
+        //round r in prevRound is round r - 1 in newCycle
+        //round 0 in prevRound isn't copied yet
+        for (let r = 1; r < numRounds; r++) {
+            let round = [];
+            for (let g = 0; g < gamesPerRd; g++) {
+                let game = prevCycle[r][g];
+                round.push(new SoccerMatch(game.awayTeam, game.homeTeam));
+            }
+
+            this.randomizeRound(round);
+            newCycle.push(round);
+        }
+
+        //Copy round 0 in prevRound as the last round in newCycle
+        let round = [];
+        for (let g = 0; g < gamesPerRd; g++) {
+            let game = prevCycle[0][g];
+            round.push(new SoccerMatch(game.awayTeam, game.homeTeam));
+        }
+
+        this.randomizeRound(round);
+        newCycle.push(round);
+
+        return newCycle;
+    }
+
+    randomizeRound = function(round) {
+        for (let g = 0; g < round.length; g++){
+            let rand = Math.floor(Math.random() * round.length);
+            [round[rand], round[g]] = [round[g], round[rand]];
+        }        
     }
 
     createStandings = function () {

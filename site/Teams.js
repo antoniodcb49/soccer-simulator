@@ -177,7 +177,7 @@ Palmeiras
 Red Bull Bragantino
 Santos
 São Paulo
-Vasco da Gama`;
+Vasco da Gama`; 
 
 let arg = `Argentinos Juniors
 Arsenal de Sarandí
