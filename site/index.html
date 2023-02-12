@@ -273,6 +273,8 @@
                 table.setAttribute("border", "1");
                 table.setAttribute("id", "standings");
                 table.setAttribute("class", "table table-dark");
+                document.getElementById('teams').innerHTML += "Goals scored: " + league.numGoals + 
+                    "<br>Goals per game: " + league.goalsPerGame();
             }
 
             window.clearInfo = function () {

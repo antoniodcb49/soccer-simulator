@@ -101,6 +101,8 @@ export class SoccerLeague {
         this.currentWeek = 0;
         this.numWeeks = this.roundRobin*(this.leagueTeams.length - 1);
         this.simulated = false;
+        this.numGoals = 0; 
+        this.gamesPlayed = 0;
     }
 
     simulateNextWeek = function() {
@@ -109,9 +111,10 @@ export class SoccerLeague {
 
         for (let match of this.schedule[this.currentWeek]) {
             match.simulateMatch();
+            this.gamesPlayed++;
+            this.numGoals += (match.homeGoals + match.awayGoals);
         }
         this.currentWeek++;
-        //this.createStandings();
         if (this.currentWeek == this.numWeeks)
             this.simulated = true;
     }
@@ -242,6 +245,15 @@ export class SoccerLeague {
         }        
     }
 
+    //Rounded to 2 decimal places
+    goalsPerGame = function () {
+        let gamesPlayed = this.gamesPlayed || 1;
+        //return Math.round(this.numGoals / gamesPlayed * 100) / 100;
+
+        let average = this.numGoals / gamesPlayed;
+        return average.toFixed(2); //this is a string
+    }
+
     createStandings = function () {
         sortTeams(this.leagueTeams);
         this.standings = [];
@@ -301,11 +313,6 @@ function randomizeTeams (teamArray) {
 
         [teamArray[a], teamArray[i]] = [teamArray[i], teamArray[a]];
     }
-}
-
-function rotateTeams (teamArray) {
-    let last = teamArray.pop();
-    teamArray.splice(1, 0, last);
 }
 
 //Will determine who is the home team and who is the away team
