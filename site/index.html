@@ -87,8 +87,11 @@
         </div>
         <div class="container">
             <div class="row">
-            <p id="schedule" class="col-sm-6"></p>
-            <p id="teams" class="col-sm-6"></p>
+                <p id="schedule" class="col-sm-6"></p>
+                <div class="col-sm-6">
+                    <p id="teams"></p>
+                    <p id="goals-avg"></p>
+                </div>
             </div>
         </div>
         
@@ -126,6 +129,7 @@
                     standings = league.createStandings();
                     printWeek(league.currentWeek);
                     printStandings();
+                    printGoalAvg();                    
                 }
             }
 
@@ -166,7 +170,6 @@
             }
 
             window.printTeamSchedule = function (teamToPrint) {
-                console.log("printTeamSchedule called" + teamToPrint);
                 if (!leagueSelected) {
                     alert ("Select a league");
                     return;
@@ -194,7 +197,6 @@
                         }
                     }
 
-                    //schedString += "<br>";
                     document.getElementById('schedule').innerHTML = schedString;
                 }
             }
@@ -237,7 +239,6 @@
                 let table = document.createElement("table");
                 let tableBody = document.createElement("tbody");
                 
-                
                 let relegationZone = standings.length - league.numRelegations;
                 for (let r = 0; r < standings.length; r++) {
                     let row = document.createElement("tr");
@@ -246,13 +247,19 @@
                         let cellType = (r == 0) ? "th" : "td";
                         //creates data cell or header cell
                         let cell = document.createElement(cellType); 
-                        let teamStr = standings[r][c]
+                        let teamStr = standings[r][c];
                         let cellTextNode = document.createTextNode(teamStr);
+                        let printTeam = function () {
+                            printTeamSchedule(teamStr);
+                        }
   
                         if (c == 1 && r != 0) {
-                            cell.setAttribute("id", standings[r][1].toLowerCase());
+                            let id = String(standings[r][1].toLowerCase()).replace(" ", "-");
+                            cell.setAttribute("id", id);
                             cell.setAttribute("class", "team-name");
-                            cell.addEventListener("click", function () {printTeamSchedule(teamStr)});
+                            cell.addEventListener("click", () => {
+                                printTeamSchedule(teamStr);
+                            });
                         }
                         
                         cell.appendChild(cellTextNode);
@@ -269,12 +276,16 @@
                 }
                 table.appendChild(tableBody);
                 document.getElementById('teams').innerHTML = "";
-                document.getElementById('teams').appendChild(table);
                 table.setAttribute("border", "1");
                 table.setAttribute("id", "standings");
                 table.setAttribute("class", "table table-dark");
-                document.getElementById('teams').innerHTML += "Goals scored: " + league.numGoals + 
-                    "<br>Goals per game: " + league.goalsPerGame();
+                document.getElementById('teams').appendChild(table);
+                printGoalAvg();
+            }
+
+            window.printGoalAvg = function () {
+                document.getElementById('goals-avg').innerHTML = "Goals scored: " + league.numGoals + 
+                 "<br>Goals per game: " + league.goalsPerGame(); 
             }
 
             window.clearInfo = function () {

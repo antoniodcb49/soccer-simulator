@@ -192,13 +192,13 @@ export class SoccerLeague {
             prevCycle = Object.assign({}, nextCycle);
         }
 
-        for (let rou in this.schedule) {
-            console.log("Round " + (+rou + 1));
-            for (let gam in this.schedule[rou]) {
-                console.log(this.schedule[rou][gam].toString());
-            }
-            console.log("\n");
-        }
+        // for (let rou in this.schedule) {
+        //     console.log("Round " + (+rou + 1));
+        //     for (let gam in this.schedule[rou]) {
+        //         console.log(this.schedule[rou][gam].toString());
+        //     }
+        //     console.log("\n");
+        // }
 
         return this.schedule;
     }
