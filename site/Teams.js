@@ -169,7 +169,7 @@ Cruzeiro
 Cuiabá
 Flamengo
 Fluminense
-Fontaleza
+Fortaleza
 Goiás
 Grêmio
 Internacional

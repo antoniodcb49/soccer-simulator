@@ -8,15 +8,15 @@ export class SoccerTeam {
         this.losses = 0;
         this.goalsFor = 0; this.goalsAgainst = 0;
     }
-    goalDifference = function () {
+    goalDifference () {
         return this.goalsFor - this.goalsAgainst;
     }
 
-    points = function () {
+    points () {
         return 3*this.wins + this.draws;
     }
 
-    gamesPlayed = function () {
+    gamesPlayed () {
         return this.wins + this.losses + this.draws;
     }
 }
@@ -29,7 +29,7 @@ export class SoccerMatch {
         this.played = false;
     }
 
-    simulateMatch = function() {
+    simulateMatch () {
         if (this.homeTeam.teamName == "<BYE>" || this.awayTeam.teamName == "<BYE>")
             return;
         let diff = this.homeTeam.rating - this.homeTeam.rating;
@@ -68,18 +68,16 @@ export class SoccerMatch {
 
         this.awayTeam.goalsFor += this.awayGoals;
         this.awayTeam.goalsAgainst += this.homeGoals;
-
-        return this.homeGoals + this.awayGoals;
     }
 
     //positive if home team won, negative if away team won, 0 if tie/draw
-    getResult = function() {
+    getResult () {
         if (this.played)
             return this.homeGoals - this.awayGoals;
         return null;
     }
 
-    toString() {  
+    toString () {  
         if (this.played) {
             return this.homeTeam.teamName + " " + this.homeGoals + " - " + this.awayGoals + " " + this.awayTeam.teamName;
         }
@@ -105,7 +103,7 @@ export class SoccerLeague {
         this.gamesPlayed = 0;
     }
 
-    simulateNextWeek = function() {
+    simulateNextWeek () {
         if (this.schedule.length == 0)
             return;
 
@@ -119,7 +117,7 @@ export class SoccerLeague {
             this.simulated = true;
     }
 
-    createSchedule = function (){
+    createSchedule (){
         let numTeams = this.leagueTeams.length;
         let numRounds = numTeams - 1;
         let gamesPerRd = numTeams / 2;
@@ -192,21 +190,13 @@ export class SoccerLeague {
             prevCycle = Object.assign({}, nextCycle);
         }
 
-        // for (let rou in this.schedule) {
-        //     console.log("Round " + (+rou + 1));
-        //     for (let gam in this.schedule[rou]) {
-        //         console.log(this.schedule[rou][gam].toString());
-        //     }
-        //     console.log("\n");
-        // }
-
         return this.schedule;
     }
 
     //prevCycle and newCycle are 2D SoccerMatch arrays, just like this.schedule
     //row 0 of newCycle will be row 1 of prevCycle with home and away teams flipped
     //last row of newCycle will be row 0 of prevCycle
-    createNextCycle = function (prevCycle) {
+    createNextCycle (prevCycle) {
         let newCycle = [];
         let numTeams = this.leagueTeams.length;
         let numRounds = numTeams - 1;
@@ -238,7 +228,7 @@ export class SoccerLeague {
         return newCycle;
     }
 
-    randomizeRound = function(round) {
+    randomizeRound (round) {
         for (let g = 0; g < round.length; g++){
             let rand = Math.floor(Math.random() * round.length);
             [round[rand], round[g]] = [round[g], round[rand]];
@@ -246,7 +236,7 @@ export class SoccerLeague {
     }
 
     //Rounded to 2 decimal places
-    goalsPerGame = function () {
+    goalsPerGame () {
         let gamesPlayed = this.gamesPlayed || 1;
         //return Math.round(this.numGoals / gamesPlayed * 100) / 100;
 
@@ -254,7 +244,7 @@ export class SoccerLeague {
         return average.toFixed(2); //this is a string
     }
 
-    createStandings = function () {
+    createStandings () {
         sortTeams(this.leagueTeams);
         this.standings = [];
         let header = ['Pos', 'Team', 'GP', 'W', 'D', 'L', 'GF', 'GA', 'GD', 'PTS'];
@@ -313,47 +303,4 @@ function randomizeTeams (teamArray) {
 
         [teamArray[a], teamArray[i]] = [teamArray[i], teamArray[a]];
     }
-}
-
-//Will determine who is the home team and who is the away team
-//based on the week, the total number of weeks, and the teams' positions within teamArray
-function createSoccerMatch (week, numWeeks, team1Pos, team2Pos, teamArray) {
-    let match = null;
-    if (week < numWeeks / 2){
-        if(team1Pos == 0){
-            if (week % 2 == 0) {
-                match = new SoccerMatch(teamArray[team1Pos], teamArray[team2Pos]); 
-            }
-            else {
-                match = new SoccerMatch(teamArray[team2Pos], teamArray[team1Pos]); 
-            }
-        }
-        else {
-            if (team1Pos % 2 == 0) {
-                match = new SoccerMatch(teamArray[team1Pos], teamArray[team2Pos]);
-            }
-            else {
-                match = new SoccerMatch(teamArray[team2Pos], teamArray[team1Pos]); 
-            }
-        }
-    }
-    else {
-        if(team1Pos == 0){
-            if (week % 2 == 1) {
-                match = new SoccerMatch(teamArray[team2Pos], teamArray[team1Pos]); 
-            }
-            else {
-                match = new SoccerMatch(teamArray[team1Pos], teamArray[team2Pos]);
-            }
-        }
-        else {
-            if (team1Pos % 2 == 0) {
-                match = new SoccerMatch(teamArray[team2Pos], teamArray[team1Pos]); 
-            }
-            else {
-                match = new SoccerMatch(teamArray[team1Pos], teamArray[team2Pos]);
-            }
-        }
-    }
-    return match;
 }
