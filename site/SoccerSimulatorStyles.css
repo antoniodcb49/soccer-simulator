@@ -39,6 +39,7 @@ button:active, .dropdown-item:active, dropdown-toggle:active {
 
 .table {
     color: white;
+    font-size: 0.8em;
 }
 
 .options{

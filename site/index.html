@@ -251,12 +251,14 @@
                                 printTeamSchedule(teamStr);
                             });
 
-                            if (league.country == 'brazil') {
+                            if (league.country == 'brazil' ||
+                                league.country == 'germany') {
                                 let teamPic = document.createElement("img");
-                                teamPic.setAttribute("src", "./images/America Flags/Brazil League/" + 
-                                    id + ".png");
+                                teamPic.setAttribute("src", "./images/Team Logos/" + league.country + 
+                                " league/" + id + ".png");
                                 teamPic.setAttribute("width", "25px");
                                 teamPic.setAttribute("alt", teamStr);
+                                //teamPic.setAttribute("class", "img-fluid");
                                 cell.appendChild(teamPic);
                             }
                             console.log(cell);

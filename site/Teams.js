@@ -65,7 +65,7 @@ let ger = `Bayern Munich
 SC Freiburg
 RasenBallsport Leipzig
 Union Berlin
-Entracht Frankfurt
+Eintracht Frankfurt
 Borussia Dortmund
 VfL Wolfsburg
 Borussia Mönchengladbach
