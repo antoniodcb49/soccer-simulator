@@ -16,6 +16,15 @@ button {
     background-color: white;
 }
 
+.nav-link, .nav-link:hover {
+    color: whitesmoke;
+}
+
+.nav-link:hover, .nav-link:active {
+    background-color: powderblue;
+    color:black;
+}
+
 button:hover, .dropdown-item:hover, .dropdown-toggle:hover, .team-name:hover{
     background-color:powderblue;
     color: black;
@@ -39,15 +48,10 @@ button:active, .dropdown-item:active, dropdown-toggle:active {
 
 .table {
     color: white;
-    font-size: 0.8em;
 }
 
 .options{
     margin-top: 10px;
-}
-
-.print-info {
-    font-size:.8em;
 }
 
 #select-prompt {
@@ -70,5 +74,14 @@ h1 {
     .col-xs-3 {
         flex: 0 0 auto;
         width: 25%;
+    }
+
+    .table {
+        color: white;
+        font-size: 0.8em;
+    }
+
+    .print-info {
+        font-size:.8em;
     }
 }

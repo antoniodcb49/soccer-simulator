@@ -85,14 +85,31 @@
             </div>
             <hr>
         </div>
-        <div class="container">
-            <div class="row">
-                <p id="schedule" class="col-sm-6"></p>
-                <div class="col-sm-6">
-                    <p id="teams"></p>
-                    <p id="goals-avg"></p>
+        <div>
+            <ul class="nav nav-tabs" id="myTab" role="tablist">
+                <li class="nav-item" role="presentation">
+                  <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#schedule-pane" type="button" role="tab" aria-controls="home-tab-pane" aria-selected="true">Schedule</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                  <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#standings-pane" type="button" role="tab" aria-controls="profile-tab-pane" aria-selected="false">Standings</button>
+                </li>
+                </li>
+              </ul>
+              <div class="tab-content" id="myTabContent">
+                <div class="tab-pane fade show active" id="schedule-pane" role="tabpanel" aria-labelledby="home-tab" tabindex="0">
+                    <div class="container">
+                        <p id="schedule" class="col-sm-12"></p>
+                    </div>
                 </div>
-            </div>
+                <div class="tab-pane fade" id="standings-pane" role="tabpanel" aria-labelledby="profile-tab" tabindex="0">
+                    <div class="container">
+                        <div class="col-sm-12">
+                            <p id="teams"></p>
+                            <p id="goals-avg"></p>
+                        </div>
+                    </div>
+                </div>
+              </div>
         </div>
         
         <script type="module">
