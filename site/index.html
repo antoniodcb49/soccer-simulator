@@ -88,10 +88,10 @@
         <div>
             <ul class="nav nav-tabs" id="myTab" role="tablist">
                 <li class="nav-item" role="presentation">
-                  <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#schedule-pane" type="button" role="tab" aria-controls="home-tab-pane" aria-selected="true">Schedule</button>
+                  <button class="nav-link active" id="schedule-tab" data-bs-toggle="tab" data-bs-target="#schedule-pane" type="button" role="tab" aria-controls="schedule-tab-pane" aria-selected="true">Schedule</button>
                 </li>
                 <li class="nav-item" role="presentation">
-                  <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#standings-pane" type="button" role="tab" aria-controls="profile-tab-pane" aria-selected="false">Standings</button>
+                  <button class="nav-link" id="standings-tab" data-bs-toggle="tab" data-bs-target="#standings-pane" type="button" role="tab" aria-controls="standings-tab-pane" aria-selected="false">Standings</button>
                 </li>
                 </li>
               </ul>
@@ -269,7 +269,8 @@
                             });
 
                             if (league.country == 'brazil' ||
-                                league.country == 'germany') {
+                                league.country == 'germany' ||
+                                league.country == 'spain') {
                                 let teamPic = document.createElement("img");
                                 teamPic.setAttribute("src", "./images/Team Logos/" + league.country + 
                                 " league/" + id + ".png");
