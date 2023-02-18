@@ -238,7 +238,7 @@ St. Louis City
 Toronto FC
 Vancouver Whitecaps`;
 
-export let leagues = {
+let leagues = {
     england:eng,
     spain:spa,
     italy:ita,

@@ -1,6 +1,6 @@
-import {leagues} from './Teams.js';
+//import {leagues} from './Teams.js';
 
-export class SoccerTeam {
+class SoccerTeam {
     constructor (name, rating) {
         this.teamName = name;
         this.teamRating = rating;
@@ -21,7 +21,7 @@ export class SoccerTeam {
     }
 }
 
-export class SoccerMatch {
+class SoccerMatch {
     constructor (home, away) {
         this.homeTeam = home;
         this.awayTeam = away;
@@ -85,7 +85,7 @@ export class SoccerMatch {
     }
 }
 
-export class SoccerLeague {
+class SoccerLeague {
     constructor (country, name, rRobin, numChamp, numSecondary, numRel) {
         this.country = country;
         this.leagueTeams = getLeagueTeams(country);
@@ -266,7 +266,7 @@ export class SoccerLeague {
     }
 }
 
-export function getLeagueTeams (country) {
+function getLeagueTeams (country) {
     let teamStrArray = leagues[country].split('\n');
 
     let teamArray = [];
