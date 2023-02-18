@@ -28,8 +28,8 @@ simulateNextWeek = function() {
         printWeek(league.currentWeek);
         printStandings();
         printGoalAvg();  
-        document.getElementById('standings-pane').setAttribute("class", "tab-pane fade");    
-        document.getElementById('schedule-pane').setAttribute("class", "tab-pane fade show active"); 
+        /* document.getElementById('standings-pane').setAttribute("class", "tab-pane fade");    
+        document.getElementById('schedule-pane').setAttribute("class", "tab-pane fade show active");  */
     }
 }
 document.getElementById("sim-next-week").addEventListener("click", simulateNextWeek);
