@@ -1,22 +1,36 @@
+import { leaguesObj } from "./Teams.js";
+import { SoccerLeague } from "./SoccerLeagues.js";
+
 let league = null;
 let schedule = null;
 let standings = null;
 let leagueSelected = false;
 
-createLeague = function (country, name, roundRobin, numChamp, numSecondary, numRel) {
-    league = new SoccerLeague (country, name, roundRobin, numChamp, numSecondary, numRel);
+let createLeague = function (socLeagueObj) {
+    console.log(socLeagueObj['teams']);
+    league = new SoccerLeague (socLeagueObj);
+    console.log("league.country = " + league.country);
     leagueSelected = true;
-    let leagueName = document.getElementById(String(country)).innerText.trim();
 
-    document.getElementById('schedule').innerHTML = "League Selected: " + leagueName;
+    document.getElementById('schedule').innerHTML = "League Selected: " + socLeagueObj['country'] +
+        ' (' + socLeagueObj['name'] + ')';
     document.getElementById('teams').innerHTML = "";
 
     schedule = league.createSchedule();
     standings = league.createStandings();
     printStandings();
-} 
+}
 
-simulateNextWeek = function() {
+let allLeagues = document.getElementsByClassName("create-league");
+
+for (let currLeague of allLeagues) {
+    currLeague.addEventListener("click", function() {
+        createLeague(leaguesObj[currLeague.id])
+    });
+}
+
+
+let simulateNextWeek = function() {
     if (!leagueSelected) {
         alert ("Select a league");
         return;
@@ -34,7 +48,7 @@ simulateNextWeek = function() {
 }
 document.getElementById("sim-next-week").addEventListener("click", simulateNextWeek);
 
-simulateSeason = function() {
+let simulateSeason = function() {
     if (!leagueSelected) {
         alert ("Select a league");
         return;
@@ -49,7 +63,7 @@ simulateSeason = function() {
 }
 document.getElementById("sim-season").addEventListener("click", simulateSeason);
 
-printSchedule = function () {
+let printSchedule = function () {
     if (!leagueSelected) {
         alert ("Select a league");
         return;
@@ -72,7 +86,7 @@ printSchedule = function () {
 }
 document.getElementById("print-sched").addEventListener("click", printSchedule);
 
-printTeamSchedule = function (teamToPrint) {
+let printTeamSchedule = function (teamToPrint) {
     let schedString = "";
     for (let week in schedule) {
         schedString +="Week " + (+week + 1) + ": ";
@@ -93,7 +107,7 @@ printTeamSchedule = function (teamToPrint) {
     }
 }
 
-printWeek = function (weekToPrint) {
+let printWeek = function (weekToPrint) {
     if (!leagueSelected) {
         alert ("Select a league");
         return;
@@ -106,7 +120,6 @@ printWeek = function (weekToPrint) {
         }
         while(weekToPrint <= 0 || weekToPrint > schedule.length)
 
-    if (weekToPrint != null) {
         let weekString = "&emsp;&emsp;Week " + weekToPrint + "<br>";
 
         for (let game of schedule[weekToPrint - 1]) {
@@ -120,11 +133,12 @@ printWeek = function (weekToPrint) {
         
         weekString += "<br>";
         document.getElementById('schedule').innerHTML = weekString; 
-    }   
 }
-document.getElementById("print-week").addEventListener("click", function() {printWeek(null)});
+document.getElementById("print-week").addEventListener("click", function(event) {
+    printWeek(null)
+});
 
-printStandings = function () {
+let printStandings = function () {
     if (!leagueSelected) {
         alert ("Select a league");
         return;
@@ -142,9 +156,6 @@ printStandings = function () {
             let cell = document.createElement(cellType); 
             let teamStr = standings[r][c];
             let cellTextNode = document.createTextNode(" " + teamStr);
-            // let linkToTab = document.createElement("a");
-            // linkToTab.setAttribute("href", "#schedule-pane");
-            // linkToTab.appendChild(cellTextNode);
             
             if (c == 1 && r != 0) {
                 let id = String(standings[r][1].toLowerCase()).replaceAll(" ", "-");
@@ -154,10 +165,11 @@ printStandings = function () {
                     printTeamSchedule(teamStr);
                 });
 
-                if (league.country == 'brazil' ||
-                    league.country == 'germany' ||
-                    league.country == 'spain' ||
-                    league.country == 'mexico') {
+                if (league.country == 'Brazil' ||
+                    league.country == 'Germany' ||
+                    league.country == 'Spain' ||
+                    league.country == 'Mexico' || 
+                    league.country == 'Italy') {
                     let teamPic = document.createElement("img");
                     teamPic.setAttribute("src", "./images/Team Logos/" + league.country + 
                     " league/" + id + ".png");
@@ -165,7 +177,6 @@ printStandings = function () {
                     teamPic.setAttribute("alt", teamStr);
                     cell.appendChild(teamPic);
                 }
-                //console.log(cell);
             }
 
             cell.appendChild(cellTextNode);
@@ -190,16 +201,16 @@ printStandings = function () {
 }
 document.getElementById('print-stand').addEventListener("click", printStandings);
 
-printGoalAvg = function () {
+let printGoalAvg = function () {
     document.getElementById('goals-avg').innerHTML = "Goals scored: " + league.numGoals + 
      "<br>Goals per game: " + league.goalsPerGame(); 
 }
 
-clearInfo = function () {
+let clearInfo = function () {
     document.getElementById('schedule').innerHTML = "";
-    let leagueName = document.getElementById(String(league.country)).innerText.trim();
+    let countryLeague = league.country + ' (' + league.leagueName + ')';
     if (leagueSelected) {
-        document.getElementById('schedule').innerHTML = "League Selected: " + leagueName;
+        document.getElementById('schedule').innerHTML = "League Selected: " + countryLeague;
     }
     document.getElementById('teams').innerHTML = "";
     document.getElementById('goals-avg').innerHTML = "";

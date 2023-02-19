@@ -85,15 +85,15 @@ class SoccerMatch {
     }
 }
 
-class SoccerLeague {
-    constructor (country, name, rRobin, numChamp, numSecondary, numRel) {
-        this.country = country;
-        this.leagueTeams = getLeagueTeams(country);
-        this.leagueName = name;
-        this.roundRobin = rRobin;
-        this.numChampions = numChamp;
-        this.numSecondary = numSecondary;
-        this.numRelegations = numRel;
+export class SoccerLeague {
+    constructor (socLeagueObj) {
+        this.country = socLeagueObj.country;
+        this.leagueTeams = getLeagueTeams(socLeagueObj.teams);
+        this.leagueName = socLeagueObj.name;
+        this.roundRobin = socLeagueObj.roundRobin;
+        this.numChampions = socLeagueObj.numChampions;
+        this.numSecondary = socLeagueObj.numSecondary;
+        this.numRelegations = socLeagueObj.numRelegationsl;
         this.schedule = [];
         this.standings = [];
         this.currentWeek = 0;
@@ -266,8 +266,8 @@ class SoccerLeague {
     }
 }
 
-function getLeagueTeams (country) {
-    let teamStrArray = leagues[country].split('\n');
+function getLeagueTeams (teams) {
+    let teamStrArray = teams.split('\n');
 
     let teamArray = [];
     for (let teamStr of teamStrArray) {

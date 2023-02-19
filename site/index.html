@@ -11,39 +11,32 @@
         <script src="js/bootstrap.min.js"></script>
     </head>
     <body>
-        <h1 class="text-center">Antonio's Soccer Simulator</h1>
+        <h1 class="text-center">Soccer Simulator</h1>
         <section class="container" id="league-select">
             <div class="row text-center">
                 <div id="select-prompt" class="text-left col-md-3 col-xs-3">Select a league</div>
                 <div class="dropdown col-md-2 col-xs-3">
                     <button title="Select a league" class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">Europe
                     <ul class="dropdown-menu">
-                    <li><a class="dropdown-item" id="england" value="England (Premier League)"
-                            onclick="createLeague('england', 'Premier League', 2, 4, 3, 3)">
+                    <li><a class="dropdown-item create-league" id="england">
                             <img src="images/Europe Flags/england_flag.jpg" width="25px" alt="Premier League">
                             England (Premier League)</a></li>
-                    <li><a class="dropdown-item" id="spain" value="Spain (La Liga)"
-                            onclick="createLeague('spain', 'La Liga', 2, 4, 3, 3)">
+                    <li><a class="dropdown-item create-league" id="spain">
                             <img src="images/Europe Flags/spain_flag.jpg" width="25px" alt="La Liga">
                             Spain (La Liga)</a></li>
-                    <li><a class="dropdown-item" id="italy" value="Italy (Serie A)"
-                            onclick="createLeague('italy', 'Serie A', 2, 4, 3, 3)">
+                    <li><a class="dropdown-item create-league" id="italy">
                             <img src="images/Europe Flags/italy_flag.jpg" width="25px" alt="Serie A">
                             Italy (Serie A)</a></li>
-                    <li><a class="dropdown-item" id="germany" value="Germany (Bundeliga)"
-                            onclick="createLeague('germany', 'Bundesliga', 2, 4, 3, 2.5)">
+                    <li><a class="dropdown-item create-league" id="germany">
                             <img src="images/Europe Flags/germany_flag.jpg" width="25px" alt="Bundesliga">
                             Germany (Bundesliga)</a></li>
-                    <li><a class="dropdown-item" id="france" value="France (Ligue 1)"
-                        onclick="createLeague('france', 'Ligue 1', 2, 3, 3, 4)">
+                    <li><a class="dropdown-item create-league" id="france" >
                         <img src="images/Europe Flags/france_flag.jpg" width="25px" alt="Ligue 1">
                             France (Ligue 1)</a></li>
-                    <li><a class="dropdown-item" id="portugal" value="Portugal (Primeira Liga)"
-                            onclick="createLeague('portugal', 'Primeira Liga', 2, 2, 3, 2.5)">
+                    <li><a class="dropdown-item create-league" id="portugal">
                             <img src="images/Europe Flags/portugal_flag.jpg" width="25px" alt="Primeira Liga">
                             Portugal (Primeira Liga)</a></li>
-                    <li><a class="dropdown-item" id="netherlands" value="Netherlands (Eredivisie)"
-                          onclick="createLeague('netherlands', 'Eredivisie', 2, 2, 3, 2.5)">
+                    <li><a class="dropdown-item create-league" id="netherlands">
                           <img src="images/Europe Flags/netherlands_flag.jpg" width="25px" alt="Eredivisie">
                            Netherlands (Eredivisie)</a></li>
                     </ul>
@@ -52,20 +45,16 @@
                 <div class="dropdown col-md-2 col-xs-3">
                     <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">America
                     <ul class="dropdown-menu">
-                    <li><a= class="dropdown-item" id="brazil" value="Brazil (Série A)" 
-                            onclick="createLeague('brazil', 'Série A', 2, 6, 6, 4)">
+                    <li><a class="dropdown-item create-league" id="brazil">
                             <img src="images/America Flags/brazil_flag.jpg" width="25px" alt="Série A">
                             Brazil (Série A)</a></li>
-                    <li><a class="dropdown-item" id="argentina" value="Argentina (Primera División)" 
-                            onclick="createLeague('argentina', 'Primera División', 1, 6, 6, 2)">
+                    <li><a class="dropdown-item create-league" id="argentina">
                             <img src="images/America Flags/argentina_flag.jpg" width="25px" alt="Primera División">
                             Argentina (Primera División)</a></li>
-                    <li><a class="dropdown-item" id="mexico" value="Mexico (Liga MX)" 
-                            onclick="createLeague('mexico','Liga MX', 1, 4, 0, 0)">
+                    <li><a class="dropdown-item create-league" id="mexico">
                             <img src="images/America Flags/mexico_flag.jpg" width="25px" alt="Liga MX">
                             Mexico (Liga MX)</a></li>
-                    <li><a class="dropdown-item" id="united_states" value="USA (Major League Soccer)" 
-                            onclick="createLeague('united_states', 'Major League Soccer', 1, 4, 0, 0)">
+                    <li><a class="dropdown-item create-league" id="united_states">
                             <img src="images/America Flags/usa_flag.jpg" width="25px" alt="Major League Soccer">
                             USA (Major League Soccer)</a></li>
                     </ul>
@@ -75,7 +64,7 @@
         </section>
         <div class="container options">
             <div class="row">
-                <button id="sim-next-week" href="#schedule-pane" class="print-info col-md-2 col-sm-4 col-xs-6">Simulate Next Week</button>
+                <button id="sim-next-week" class="print-info col-md-2 col-sm-4 col-xs-6">Simulate Next Week</button>
                 <button id="sim-season" class="print-info col-md-2 col-sm-4 col-xs-6"">Simulate Season</button>
                 <button id="print-sched" class="print-info col-md-2 col-sm-4 col-xs-6"">Print Schedule</button>
                 <button id="print-stand" class="print-info col-md-2 col-sm-4 col-xs-6"">Print Standings</button>
@@ -111,8 +100,8 @@
               </div>
         </div>
         
-        <script src="js/Teams.js"></script>
-        <script src="js/SoccerLeagues.js"></script>
-        <script src="js/script.js"></script>
+        <script type="module" src="js/Teams.js"></script>
+        <script type="module" src="js/SoccerLeagues.js"></script>
+        <script type="module" src="js/script.js"></script>
     </body>
 </html>

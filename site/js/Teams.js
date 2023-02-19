@@ -1,4 +1,4 @@
-let eng = `Arsenal
+let englandTeams = `Arsenal
 Manchester City
 Tottenham Hotspur
 Newcastle United
@@ -19,7 +19,7 @@ Nottingham Forest
 Southampton
 Wolverhampton Wanderers`;
 
-let spa = `Barcelona
+let spainTeams = `Barcelona
 Real Madrid
 Real Sociedad
 Athletic Bilbao
@@ -40,7 +40,7 @@ Sevilla
 Cádiz
 Elche`;
 
-let ita = `Napoli
+let italyTeams = `Napoli
 AC Milan
 Juventus
 Lazio
@@ -61,7 +61,7 @@ Cremonese
 Sampdoria
 Hellas Verona`;
 
-let ger = `Bayern Munich
+let germanyTeams = `Bayern Munich
 SC Freiburg
 RasenBallsport Leipzig
 Union Berlin
@@ -80,7 +80,7 @@ VfB Stuttgart
 VfL Bochum
 Schalke 04`;
 
-let fra = `Paris Saint-Germain
+let franceTeams = `Paris Saint-Germain
 Lens
 Rennes
 Olympique Marseille
@@ -101,7 +101,7 @@ Ajaccio
 Strasbourg
 Angers`;
 
-let por = `Benfica
+let portugalTeams = `Benfica
 Porto
 Braga
 Sporting CP
@@ -120,7 +120,7 @@ Paços de Ferreira
 Rio Ave
 Gil Vicente`;
 
-let ned = `Feyenoord
+let netherlandsTeams = `Feyenoord
 Ajax Amsterdam
 PSV Eindhoven
 AZ Alkmaar
@@ -139,7 +139,7 @@ Emmen
 Cambuur
 Volendam`;
 
-let mex = `América
+let mexicoTeams = `América
 Atlas
 Atlético San Luis
 Cruz Azul
@@ -158,7 +158,7 @@ Tigres UANL
 Tijuana
 Toluca`; 
 
-let bra = `América Mineiro
+let brazilTeams = `América Mineiro
 Athletico Paranaense
 Atlético Mineiro
 Bahia
@@ -179,7 +179,7 @@ Santos
 São Paulo
 Vasco da Gama`; 
 
-let arg = `Argentinos Juniors
+let argentinaTeams = `Argentinos Juniors
 Arsenal de Sarandí
 Atlético Tucumán
 Banfield
@@ -208,7 +208,7 @@ Tigre
 Unión de Santa Fe
 Vélez Sarsfield`;
 
-let usa = `Atlanta United
+let united_statesTeams = `Atlanta United
 Austin FC
 Charlotte FC
 Chicago Fire
@@ -238,16 +238,26 @@ St. Louis City
 Toronto FC
 Vancouver Whitecaps`;
 
-let leagues = {
-    england:eng,
-    spain:spa,
-    italy:ita,
-    germany:ger,
-    france:fra,
-    portugal:por,
-    netherlands:ned,
-    mexico:mex,
-    brazil:bra,
-    argentina:arg,
-    united_states:usa,
-};
+function SoccerLeagueObj (country, name, teams, rRobin, numChamp, numSecond, numRel) {
+    this.country = country;
+    this.name = name;
+    this.teams = teams,
+    this.roundRobin = rRobin;
+    this.numChampions = numChamp;
+    this.numSecondary = numSecond;
+    this.numRelegations = numRel;
+}
+
+export let leaguesObj = {
+    england:new SoccerLeagueObj("England", "Premier League", englandTeams, 2, 4, 3, 3),
+    spain:new SoccerLeagueObj("Spain", "La Liga", spainTeams, 2, 4, 3, 3),
+    italy:new SoccerLeagueObj("Italy", "Serie A", italyTeams, 2, 4, 3, 3),
+    germany:new SoccerLeagueObj("Germany", "Bundesliga", germanyTeams, 2, 4, 3, 2.5),
+    france:new SoccerLeagueObj("France", "Ligue 1", franceTeams, 2, 3, 3, 4),
+    portugal:new SoccerLeagueObj("Portugal", "Primeira Liga", portugalTeams, 2, 2, 3, 2.5),
+    netherlands:new SoccerLeagueObj("Netherlands", "Eredivisie", netherlandsTeams, 2, 2, 3, 2.5),
+    mexico:new SoccerLeagueObj("Mexico", "Liga MX", mexicoTeams, 1, 4, 0, 0),
+    brazil:new SoccerLeagueObj("Brazil", "Série A", brazilTeams, 2, 6, 6, 4),
+    argentina:new SoccerLeagueObj("Argentina", "Primera División", argentinaTeams, 1, 6, 6, 2),
+    united_states:new SoccerLeagueObj("United States", "Major League Soccer", united_statesTeams, 1, 4, 0, 0),
+}
