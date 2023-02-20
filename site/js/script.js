@@ -7,9 +7,7 @@ let standings = null;
 let leagueSelected = false;
 
 let createLeague = function (socLeagueObj) {
-    console.log(socLeagueObj['teams']);
     league = new SoccerLeague (socLeagueObj);
-    console.log("league.country = " + league.country);
     leagueSelected = true;
 
     document.getElementById('schedule').innerHTML = "League Selected: " + socLeagueObj['country'] +
@@ -42,8 +40,6 @@ let simulateNextWeek = function() {
         printWeek(league.currentWeek);
         printStandings();
         printGoalAvg();  
-        /* document.getElementById('standings-pane').setAttribute("class", "tab-pane fade");    
-        document.getElementById('schedule-pane').setAttribute("class", "tab-pane fade show active");  */
     }
 }
 document.getElementById("sim-next-week").addEventListener("click", simulateNextWeek);
@@ -135,7 +131,7 @@ let printWeek = function (weekToPrint) {
         document.getElementById('schedule').innerHTML = weekString; 
 }
 document.getElementById("print-week").addEventListener("click", function(event) {
-    printWeek(null)
+    printWeek(null);
 });
 
 let printStandings = function () {
@@ -169,7 +165,8 @@ let printStandings = function () {
                     league.country == 'Germany' ||
                     league.country == 'Spain' ||
                     league.country == 'Mexico' || 
-                    league.country == 'Italy') {
+                    league.country == 'Italy' ||
+                    league.country == 'Portugal') {
                     let teamPic = document.createElement("img");
                     teamPic.setAttribute("src", "./images/Team Logos/" + league.country + 
                     " league/" + id + ".png");
@@ -178,17 +175,16 @@ let printStandings = function () {
                     cell.appendChild(teamPic);
                 }
             }
-
             cell.appendChild(cellTextNode);
             row.appendChild(cell);
-
-            if (r >= relegationZone)
-                row.setAttribute("class", "table-danger");
-            if (r == Math.trunc(relegationZone) && row.getAttribute("class") != "table-danger")
-                row.setAttribute("class", "table-warning");
-            if (r >= 1 && r <= league.numChampions)
-                row.setAttribute("class", "table-info");
         }
+
+        if (r >= relegationZone)
+            row.setAttribute("class", "table-danger");
+        if (r == Math.trunc(relegationZone) && row.getAttribute("class") != "table-danger")
+            row.setAttribute("class", "table-warning");
+        if (r >= 1 && r <= league.numChampions)
+            row.setAttribute("class", "table-info");
         tableBody.appendChild(row);
     }
     table.appendChild(tableBody);

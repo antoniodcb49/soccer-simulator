@@ -93,7 +93,7 @@ export class SoccerLeague {
         this.roundRobin = socLeagueObj.roundRobin;
         this.numChampions = socLeagueObj.numChampions;
         this.numSecondary = socLeagueObj.numSecondary;
-        this.numRelegations = socLeagueObj.numRelegationsl;
+        this.numRelegations = socLeagueObj.numRelegations;
         this.schedule = [];
         this.standings = [];
         this.currentWeek = 0;
