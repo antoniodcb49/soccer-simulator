@@ -4,7 +4,7 @@ Tottenham Hotspur
 Newcastle United
 Manchester United
 Liverpool
-Brighton and Hove Albion
+Brighton & Hove Albion
 Chelsea
 Fulham
 Brentford

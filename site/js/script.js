@@ -10,10 +10,10 @@ let createLeague = function (socLeagueObj) {
     league = new SoccerLeague (socLeagueObj);
     leagueSelected = true;
 
+    document.getElementById('teams').innerHTML = "";
     document.getElementById('schedule').innerHTML = "League Selected: " + socLeagueObj['country'] +
         ' (' + socLeagueObj['name'] + ')';
-    document.getElementById('teams').innerHTML = "";
-
+    
     schedule = league.createSchedule();
     standings = league.createStandings();
     printStandings();
