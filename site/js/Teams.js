@@ -89,11 +89,11 @@ Monaco
 LOSC Lille
 Olympique Lyon
 Nice
-Clermont
+Clermont Foot
 Stade de Reims
 Toulouse
 Troyes
-Montpelier
+Montpellier
 Nantes
 Brest
 AJ Auxerre
@@ -258,6 +258,6 @@ export let leaguesObj = {
     netherlands:new SoccerLeagueObj("Netherlands", "Eredivisie", netherlandsTeams, 2, 2, 3, 2.5),
     mexico:new SoccerLeagueObj("Mexico", "Liga MX", mexicoTeams, 1, 4, 0, 0),
     brazil:new SoccerLeagueObj("Brazil", "Série A", brazilTeams, 2, 6, 6, 4),
-    argentina:new SoccerLeagueObj("Argentina", "Primera División", argentinaTeams, 1, 6, 6, 2),
+    argentina:new SoccerLeagueObj("Argentina", "Primera División", argentinaTeams, 1, 6, 6, 3),
     united_states:new SoccerLeagueObj("United States", "Major League Soccer", united_statesTeams, 1, 4, 0, 0),
 }

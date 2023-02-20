@@ -161,19 +161,12 @@ let printStandings = function () {
                     printTeamSchedule(teamStr);
                 });
 
-                if (league.country == 'Brazil' ||
-                    league.country == 'Germany' ||
-                    league.country == 'Spain' ||
-                    league.country == 'Mexico' || 
-                    league.country == 'Italy' ||
-                    league.country == 'Portugal') {
-                    let teamPic = document.createElement("img");
-                    teamPic.setAttribute("src", "./images/Team Logos/" + league.country + 
-                    " league/" + id + ".png");
-                    teamPic.setAttribute("width", "25px");
-                    teamPic.setAttribute("alt", teamStr);
-                    cell.appendChild(teamPic);
-                }
+                let teamPic = document.createElement("img");
+                teamPic.setAttribute("src", "./images/Team Logos/" + league.country + 
+                " league/" + id + ".png");
+                teamPic.setAttribute("width", "25px");
+                teamPic.setAttribute("alt", teamStr);
+                cell.appendChild(teamPic);
             }
             cell.appendChild(cellTextNode);
             row.appendChild(cell);
