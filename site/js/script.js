@@ -1,4 +1,3 @@
-import { leaguesObj } from "./Teams.js";
 import { SoccerLeague } from "./SoccerLeagues.js";
 import { ajaxUtils } from "./ajax-utils.js";
 
@@ -66,10 +65,13 @@ let printSchedule = function () {
         alert ("Select a league");
         return;
     }
+    
     let schedString = "";
+    document.getElementById('schedule').innerHTML = "";
 
     for (let week in schedule) {
-        schedString += ("&emsp;&emsp;Week " + (+week + 1) + "<br>");
+        schedString = ("&emsp;&emsp;Week " + (+week + 1) + "<br>");
+
         for (let game of schedule[week]) {
             let gameString = game.toString();
 
@@ -78,9 +80,14 @@ let printSchedule = function () {
                 schedString += (game.toString() + "<br>");
             }
         }
-        schedString += "<br>";
-        document.getElementById('schedule').innerHTML = schedString;
+        //schedString += "<br>";
+        let weekSched = document.createElement('p');
+        weekSched.innerHTML = schedString;
+        weekSched.setAttribute('id','week-' + (+week + 1));
+        weekSched.setAttribute('class', 'col-sm-12 col-md-6 col-lg-4');
+        document.getElementById('schedule').appendChild(weekSched);
     }
+    //document.getElementById('schedule').innerHTML = schedString;
 }
 document.getElementById("print-sched").addEventListener("click", printSchedule);
 
