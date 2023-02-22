@@ -1,0 +1,9 @@
+{
+    "country":"Netherlands",
+    "name":"Eredivisie",
+    "teams":"Ajax Amsterdam\nAZ Alkmaar\nCambuur\nEmmen\nExcelsior\nFeyenoord\nFortuna Sittard\nGo Ahead Eagles\nGroningen\nHeerenveen\nNEC Nijmegen\nPSV Eindhoven\nRKC Waalwijk\nSparta Rotterdam\nTwente\nUtrecht\nVitesse\nVolendam",
+    "roundRobin":2,
+    "numChampions":2,
+    "numSecondary":3,
+    "numRelegations":2.5
+}

@@ -1,0 +1,9 @@
+{
+    "country":"Brazil",
+    "name":"Série A",
+    "teams":"América Mineiro\nAthletico Paranaense\nAtlético Mineiro\nBahia\nBotafogo\nCorinthians\nCoritiba\nCruzeiro\nCuiabá\nFlamengo\nFluminense\nFortaleza\nGoiás\nGrêmio\nInternacional\nPalmeiras\nRed Bull Bragantino\nSantos\nSão Paulo\nVasco da Gama",
+    "roundRobin":2,
+    "numChampions":6,
+    "numSecondary":6,
+    "numRelegations":4
+}

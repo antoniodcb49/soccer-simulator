@@ -1,0 +1,9 @@
+{
+    "country":"United States",
+    "name":"Major League Soccer",
+    "teams":"Atlanta United\nAustin FC\nCF Montréal\nCharlotte FC\nChicago Fire\nColorado Rapids\nColumbus Crew\nDC United\nFC Cincinnati\nFC Dallas\nHouston Dynamo\nInter Miami\nLos Angeles FC\nLos Angeles Galaxy\nMinnesota United\nNashville SC\nNew England Revolution\nNew York City\nNew York Red Bulls\nOrlando City\nPhiladelphia Union\nPortland Timbers\nReal Salt Lake\nSan Jose Earthquakes\nSeattle Sounders\nSporting Kansas City\nSt. Louis City\nToronto FC\nVancouver Whitecaps",
+    "roundRobin":1,
+    "numChampions":4,
+    "numSecondary":0,
+    "numRelegations":0
+}

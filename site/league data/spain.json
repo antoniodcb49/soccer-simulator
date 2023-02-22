@@ -1,0 +1,9 @@
+{
+    "country":"Spain",
+    "name":"La Liga",
+    "teams":"Almería\nAthletic Bilbao\nBarcelona\nCádiz\nCelta de Vigo\nElche\nEspanyol\nGetafe\nGirona\nMallorca\nOsasuna\nRayo Vallecano\nReal Betis\nReal Madrid\nReal Sociedad\nReal Valladolid\nSevilla\nValencia\nVillarreal",
+    "roundRobin":2,
+    "numChampions":4,
+    "numSecondary":3,
+    "numRelegations":3
+}

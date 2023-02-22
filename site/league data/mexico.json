@@ -1,0 +1,9 @@
+{
+    "country":"Mexico",
+    "name":"Liga MX",
+    "teams":"América\nAtlas\nAtlético San Luis\nCruz Azul\nGuadalajara\nJuárez\nLeón\nMazatlán\nMonterrey\nNecaxa\nPachuca\nPuebla\nPumas UNAM\nQuerétaro\nSantos Laguna\nTigres UANL\nTijuana\nToluca",
+    "roundRobin":1,
+    "numChampions":4,
+    "numSecondary":0,
+    "numRelegations":0
+}

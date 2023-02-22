@@ -1,0 +1,9 @@
+{
+    "country":"Italy",
+    "name":"Serie A",
+    "teams":"AC Milan\nAS Roma\nAtalanta\nBologna\nCremonese\nEmpoli\nFiorentina\nHellas Verona\nInter Milan\nJuventus\nLazio\nLecce\nMonza\nNapoli\nSalernitana\nSampdoria\nSassuolo\nSpezia\nTorino\nUdinese",
+    "roundRobin":2,
+    "numChampions":4,
+    "numSecondary":3,
+    "numRelegations":3
+}

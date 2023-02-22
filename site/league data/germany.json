@@ -1,0 +1,9 @@
+{
+    "country":"Germany",
+    "name":"Bundesliga",
+    "teams":"1. FC Köln\n1899 Hoffenheim\nBayer Leverkusen\nBayern Munich\nBorussia Dortmund\nBorussia Mönchengladbach\nEintracht Frankfurt\nFC Augsburg\nHertha Berlin\nMainz 05\nRasenBallsport Leipzig\nSC Freiburg\nSchalke 04\nUnion Berlin\nVfB Stuttgart\nVfL Bochum\nVfL Wolfsburg\nWerder Bremen",
+    "roundRobin":2,
+    "numChampions":4,
+    "numSecondary":3,
+    "numRelegations":2.5
+}

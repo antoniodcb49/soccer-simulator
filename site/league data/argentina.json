@@ -1,0 +1,9 @@
+{
+    "country":"Argentina",
+    "name":"Primera División",
+    "teams":"Argentinos Juniors\nArsenal de Sarandí\nAtlético Tucumán\nBanfield\nBarracas Central\nBelgrano\nBoca Juniors\nCentral Córdoba (SdE)\nColón\nDefensa y Justicia\nEstudiantes La Plata\nGimnasia La Plata\nGodoy Cruz\nHuracán\nIndependiente\nInstituto de Córdoba\nLanús\nNewell's Old Boys\nPlatense\nRacing\nRiver Plate\nRosario Central\nSan Lorenzo\nSarmiento\nTalleres de Córdoba\nTigre\nUnión de Santa Fe\nVélez Sarsfield",
+    "roundRobin":1,
+    "numChampions":6,
+    "numSecondary":6,
+    "numRelegations":3
+}

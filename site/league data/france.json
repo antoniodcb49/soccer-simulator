@@ -1,0 +1,9 @@
+{
+    "country":"France",
+    "name":"Ligue 1",
+    "teams":"AJ Auxerre\nAjaccio\nAngers\nBrest\nClermont Foot\nLens\nLorient\nLOSC Lille\nMonaco\nMontpellier\nNantes\nNice\nOlympique Lyon\nOlympique Marseille\nParis Saint-Germain\nRennes\nStade de Reims\nStrasbourg\nToulouse\nTroyes",
+    "roundRobin":2,
+    "numChampions":3,
+    "numSecondary":3,
+    "numRelegations":4
+}

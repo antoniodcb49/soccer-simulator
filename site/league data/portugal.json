@@ -1,0 +1,9 @@
+{
+    "country":"Portugal",
+    "name":"Primeira Liga",
+    "teams":"Arouca\nBenfica\nBoavista\nBraga\nCasa Pia\nChaves\nEstoril\nFamalicão\nGil Vicente\nMarítimo\nPaços de Ferreira\nPortimonense\nPorto\nRio Ave\nSanta Clara\nSporting CP\nVitória de Guimarães\nVizela",
+    "roundRobin":2,
+    "numChampions":3,
+    "numSecondary":3,
+    "numRelegations":2.5
+}

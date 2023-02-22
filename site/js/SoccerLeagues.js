@@ -1,5 +1,3 @@
-//import {leagues} from './Teams.js';
-
 class SoccerTeam {
     constructor (name, rating) {
         this.teamName = name;

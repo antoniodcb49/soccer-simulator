@@ -1,5 +1,6 @@
 import { leaguesObj } from "./Teams.js";
 import { SoccerLeague } from "./SoccerLeagues.js";
+import { ajaxUtils } from "./ajax-utils.js";
 
 let league = null;
 let schedule = null;
@@ -19,14 +20,15 @@ let createLeague = function (socLeagueObj) {
     printStandings();
 }
 
-let allLeagues = document.getElementsByClassName("create-league");
+let dropdownLeagues = document.getElementsByClassName("create-league");
 
-for (let currLeague of allLeagues) {
-    currLeague.addEventListener("click", function() {
-        createLeague(leaguesObj[currLeague.id])
+for (let lg of dropdownLeagues) {
+    lg.addEventListener("click", function() {
+        ajaxUtils.sendGetRequest('./league data/' + lg.id + '.json', function(res) {
+            createLeague(res);
+        }, true)
     });
 }
-
 
 let simulateNextWeek = function() {
     if (!leagueSelected) {

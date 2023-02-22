@@ -1,0 +1,9 @@
+{
+    "country":"England",
+    "name":"Premier League",
+    "teams":"Arsenal\nAston Villa\nBournemouth\nBrentford\nBrighton & Hove Albion\nChelsea\nCrystal Palace\nEverton\nFulham\nLeeds United\nLeicester City\nLiverpool\nManchester City\nManchester United\nNewcastle United\nNottingham Forest\nSouthampton\nTottenham Hotspur\nWest Ham United\nWolverhampton Wanderers",
+    "roundRobin":2,
+    "numChampions":4,
+    "numSecondary":3,
+    "numRelegations":3
+}
