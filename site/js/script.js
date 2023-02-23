@@ -60,6 +60,13 @@ let simulateSeason = function() {
 }
 document.getElementById("sim-season").addEventListener("click", simulateSeason);
 
+let changeTab = function(oldTab, newTab) {
+    document.getElementById(newTab + '-pane').setAttribute('class', 'tab-pane fade show active');
+    document.getElementById(newTab + '-tab').setAttribute('class', 'nav-link active');
+    document.getElementById(oldTab + '-pane').setAttribute('class', 'tab-pane fade');
+    document.getElementById(oldTab + '-tab').setAttribute('class', 'nav-link');
+}
+
 let printSchedule = function () {
     if (!leagueSelected) {
         alert ("Select a league");
@@ -85,6 +92,7 @@ let printSchedule = function () {
         weekSched.innerHTML = schedString;
         weekSched.setAttribute('class', 'week-sched col-sm-12 col-md-6 col-lg-4');
         document.getElementById('schedule').appendChild(weekSched);
+        changeTab('standings', 'schedule');
     }
 }
 document.getElementById("print-sched").addEventListener("click", printSchedule);
@@ -106,6 +114,7 @@ let printTeamSchedule = function (teamToPrint) {
             }
         }
         document.getElementById('schedule').innerHTML = schedString;
+        changeTab('standings', 'schedule');
     }
 }
 
@@ -136,6 +145,7 @@ let printWeek = function (weekToPrint) {
         weekString += "<br>";
 
         document.getElementById('schedule').innerHTML = weekString; 
+        changeTab('standings', 'schedule');
 }
 document.getElementById("print-week").addEventListener("click", function(event) {
     printWeek(null);
