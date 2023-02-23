@@ -70,7 +70,7 @@ let printSchedule = function () {
     document.getElementById('schedule').innerHTML = "";
 
     for (let week in schedule) {
-        schedString = ("&emsp;&emsp;Week " + (+week + 1) + "<br>");
+        schedString = ("<span>Week " + (+week + 1) + "</span><br>");
 
         for (let game of schedule[week]) {
             let gameString = game.toString();
@@ -80,14 +80,12 @@ let printSchedule = function () {
                 schedString += (game.toString() + "<br>");
             }
         }
-        //schedString += "<br>";
-        let weekSched = document.createElement('p');
+        schedString += "<br>";
+        let weekSched = document.createElement('div');
         weekSched.innerHTML = schedString;
-        weekSched.setAttribute('id','week-' + (+week + 1));
-        weekSched.setAttribute('class', 'col-sm-12 col-md-6 col-lg-4');
+        weekSched.setAttribute('class', 'week-sched col-sm-12 col-md-6 col-lg-4');
         document.getElementById('schedule').appendChild(weekSched);
     }
-    //document.getElementById('schedule').innerHTML = schedString;
 }
 document.getElementById("print-sched").addEventListener("click", printSchedule);
 
@@ -97,7 +95,6 @@ let printTeamSchedule = function (teamToPrint) {
         schedString +="Week " + (+week + 1) + ": ";
         for (let game of schedule[week]) {
             let gameString = game.toString();
-            teamToPrint = teamToPrint.trim();
 
             if (gameString.includes(teamToPrint)) {
                 if (gameString.includes("<BYE>")) {
@@ -125,7 +122,7 @@ let printWeek = function (weekToPrint) {
         }
         while(weekToPrint <= 0 || weekToPrint > schedule.length)
 
-        let weekString = "&emsp;&emsp;Week " + weekToPrint + "<br>";
+        let weekString = "<span>Week " + weekToPrint + "</span>";
 
         for (let game of schedule[weekToPrint - 1]) {
             let gameString = game.toString();
@@ -137,6 +134,7 @@ let printWeek = function (weekToPrint) {
         }
         
         weekString += "<br>";
+
         document.getElementById('schedule').innerHTML = weekString; 
 }
 document.getElementById("print-week").addEventListener("click", function(event) {

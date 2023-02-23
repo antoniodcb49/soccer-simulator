@@ -66,6 +66,15 @@ h1 {
     margin-bottom: 15px;
 }
 
+.week-sched {
+    position: relative;
+}
+.week-sched span {
+    position: absolute;
+    width: 70%;
+    text-align: center;
+}
+
 @media (max-width: 767px) {
     .col-xs-6 {
         flex: 0 0 auto;
