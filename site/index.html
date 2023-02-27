@@ -12,11 +12,11 @@
     </head>
     <body>
         <h1 class="text-center">Soccer Simulator</h1>
+        <h2 class="text-center">Select a league</h2>
         <section class="container" id="league-select">
             <div class="row text-center">
-                <div id="select-prompt" class="text-left col-md-3 col-xs-3">Select a league</div>
-                <div class="dropdown col-md-2 col-xs-3">
-                    <button title="Select a league" class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">Europe
+                <div class="dropdown col-sm-6 col-xs-6">
+                    <button title="Select a league" class="btn btn-light dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">Europe
                     <ul class="dropdown-menu">
                     <li><a class="dropdown-item create-league" id="england">
                             <img src="images/Europe Flags/england_flag.jpg" width="25px" alt="Premier League">
@@ -42,8 +42,8 @@
                     </ul>
                     </button>
                 </div>
-                <div class="dropdown col-md-2 col-xs-3">
-                    <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">America
+                <div class="dropdown col-sm-6 col-xs-6">
+                    <button class="btn btn-light dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">America
                     <ul class="dropdown-menu">
                     <li><a class="dropdown-item create-league" id="brazil">
                             <img src="images/America Flags/brazil_flag.jpg" width="25px" alt="Série A">
@@ -99,10 +99,6 @@
                 </div>
               </div>
         </div>
-        
-        <script type="module" src="js/ajax-utils.js"></script>
-        <!-- <script type="module" src="js/Teams.js"></script> -->
-        <script type="module" src="js/SoccerLeagues.js"></script>
         <script type="module" src="js/script.js"></script>
     </body>
 </html>

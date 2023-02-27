@@ -36,15 +36,10 @@ button:active, .dropdown-item:active, dropdown-toggle:active {
     color: black;
 }
 
-.dropdown {
-    margin: 5px;
+ .dropdown {
+    /* margin: 5px; */
     float: left;
-}
-
-.dropdown-toggle {
-    background-color: white;
-    color: black;
-}
+} 
 
 .table {
     color: white;
@@ -52,10 +47,6 @@ button:active, .dropdown-item:active, dropdown-toggle:active {
 
 .options{
     margin-top: 10px;
-}
-
-#select-prompt {
-    font-size: 1.2em;
 }
 
 .team-name:active {
@@ -75,8 +66,8 @@ h1 {
     text-align: center;
 }
 
-@media (max-width: 767px) {
-    .col-xs-6 {
+@media (max-width: 575px) {
+     .col-xs-6 {
         flex: 0 0 auto;
         width: 50%;
       }
@@ -85,6 +76,11 @@ h1 {
         width: 25%;
     }
 
+    .col-xs-4 {
+        flex: 0 0 auto;
+        width: 33%;
+    } 
+
     .table {
         color: white;
         font-size: 0.8em;
@@ -92,5 +88,9 @@ h1 {
 
     .print-info {
         font-size:.8em;
+    }
+
+    #select-prompt {
+        font-size:.9em;
     }
 }
