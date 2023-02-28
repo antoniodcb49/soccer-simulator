@@ -1,7 +1,7 @@
 {
     "country":"Mexico",
     "name":"Liga MX",
-    "teams":"América\nAtlas\nAtlético San Luis\nCruz Azul\nGuadalajara\nJuárez\nLeón\nMazatlán\nMonterrey\nNecaxa\nPachuca\nPuebla\nPumas UNAM\nQuerétaro\nSantos Laguna\nTigres UANL\nTijuana\nToluca",
+    "teams":"América_1700\nAtlas_1700\nAtlético San Luis_1700\nCruz Azul_1700\nGuadalajara_1700\nJuárez_1700\nLeón_1700\nMazatlán_1700\nMonterrey_1700\nNecaxa_1700\nPachuca_1700\nPuebla_1700\nPumas UNAM_1700\nQuerétaro_1700\nSantos Laguna_1700\nTigres UANL_1700\nTijuana_1700\nToluca",
     "roundRobin":1,
     "numChampions":4,
     "numSecondary":0,

@@ -98,24 +98,42 @@ let printSchedule = function () {
 document.getElementById("print-sched").addEventListener("click", printSchedule);
 
 let printTeamSchedule = function (teamToPrint) {
-    let schedString = "";
-    for (let week in schedule) {
-        schedString +="Week " + (+week + 1) + ": ";
-        for (let game of schedule[week]) {
+    let table = document.createElement("table");
+    let tableBody = document.createElement("tbody");
+    let weekCount = 0;
+    
+    for (let week of schedule) {
+        let schedString = "";
+        let tableRow = document.createElement("tr");
+        let weekCell = document.createElement("td");
+        let weekTextNode = document.createTextNode(weekCount + 1);
+        weekCell.appendChild(weekTextNode);
+        tableRow.appendChild(weekCell);
+
+        for (let game of week) {
             let gameString = game.toString();
+            let gameCell = document.createElement("td");
 
             if (gameString.includes(teamToPrint)) {
                 if (gameString.includes("<BYE>")) {
-                    schedString += "Bye Week<br>";
+                    schedString += "Bye Week";//<br>";
                 }
                 else {
-                    schedString +=  gameString + '<br>';
+                    schedString +=  gameString;// + '<br>';
                 }
+                let gameTextNode = document.createTextNode(schedString);
+                gameCell.appendChild(gameTextNode);
+                tableRow.appendChild(gameCell);
             }
         }
-        document.getElementById('schedule').innerHTML = schedString;
-        changeTab('standings', 'schedule');
+        tableBody.appendChild(tableRow);
+        weekCount++;
     }
+    document.getElementById('schedule').innerHTML = "<br>";
+    table.appendChild(tableBody);
+    table.setAttribute("class", "table table-dark team-schedule-table");
+    document.getElementById('schedule').appendChild(table);
+    changeTab('standings', 'schedule');
 }
 
 let printWeek = function (weekToPrint) {

@@ -236,7 +236,6 @@ export class SoccerLeague {
     //Rounded to 2 decimal places
     goalsPerGame () {
         let gamesPlayed = this.gamesPlayed || 1;
-        //return Math.round(this.numGoals / gamesPlayed * 100) / 100;
 
         let average = this.numGoals / gamesPlayed;
         return average.toFixed(2); //this is a string
@@ -269,7 +268,8 @@ function getLeagueTeams (teams) {
 
     let teamArray = [];
     for (let teamStr of teamStrArray) {
-        let teamCreated = new SoccerTeam(teamStr, 1500);
+        let nameAndRating = teamStr.split('_'); //creates array [teamName, teamRating]
+        let teamCreated = new SoccerTeam(nameAndRating[0], nameAndRating[1]);
         teamArray.push(teamCreated);
     }
 
