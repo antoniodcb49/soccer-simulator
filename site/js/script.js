@@ -1,18 +1,20 @@
 import { SoccerLeague } from "./SoccerLeagues.js";
-import { ajaxUtils } from "./ajax-utils.js";
+import { soccerLeaguesInfo } from "./LeaguesInfo.js";
 
 let league = null;
 let schedule = null;
 let standings = null;
 let leagueSelected = false;
 
-let createLeague = function (socLeagueObj) {
-    league = new SoccerLeague (socLeagueObj);
+let createLeague = function (soccerLeagueInfo) {
+    //Format for soccerLeagueInfo:
+    // [country, name, teams, roundRobin, numChampions, numSecondary, numRelegations]    
+    league = new SoccerLeague (soccerLeagueInfo);
     leagueSelected = true;
 
     document.getElementById('teams').innerHTML = "";
-    document.getElementById('schedule').innerHTML = "League Selected: " + socLeagueObj['country'] +
-        ' (' + socLeagueObj['name'] + ')';
+    document.getElementById('schedule').innerHTML = "League Selected: " + soccerLeagueInfo[0] +
+        ' (' + soccerLeagueInfo[1] + ')';
     
     schedule = league.createSchedule();
     standings = league.createStandings();
@@ -23,9 +25,7 @@ let dropdownLeagues = document.getElementsByClassName("create-league");
 
 for (let lg of dropdownLeagues) {
     lg.addEventListener("click", function() {
-        ajaxUtils.sendGetRequest('./league data/' + lg.id + '.json', function(res) {
-            createLeague(res);
-        }, true)
+            createLeague(soccerLeaguesInfo[lg.id + "League"]);
     });
 }
 

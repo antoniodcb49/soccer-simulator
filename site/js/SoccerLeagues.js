@@ -4,18 +4,16 @@ class SoccerTeam {
         this.teamRating = rating;
         this.wins = 0; this.draws = 0;
         this.losses = 0;
-        this.goalsFor = 0; this.goalsAgainst = 0;
-    }
-    goalDifference () {
-        return this.goalsFor - this.goalsAgainst;
-    }
-
-    points () {
-        return 3*this.wins + this.draws;
+        this.goalsFor = 0; this.goalsAgainst = 0; 
+        this.goalDifference = 0;
+        this.gamesPlayed = 0;
+        this.points = 0;
     }
 
-    gamesPlayed () {
-        return this.wins + this.losses + this.draws;
+    updateStats () {
+        this.goalDifference = this.goalsFor - this.goalsAgainst;
+        this.points = 3*this.wins + this.draws;
+        this.gamesPlayed = this.wins + this.losses + this.draws;
     }
 }
 
@@ -66,6 +64,9 @@ class SoccerMatch {
 
         this.awayTeam.goalsFor += this.awayGoals;
         this.awayTeam.goalsAgainst += this.homeGoals;
+
+        this.homeTeam.updateStats();
+        this.awayTeam.updateStats();
     }
 
     //positive if home team won, negative if away team won, 0 if tie/draw
@@ -84,14 +85,16 @@ class SoccerMatch {
 }
 
 export class SoccerLeague {
-    constructor (socLeagueObj) {
-        this.country = socLeagueObj.country;
-        this.leagueTeams = getLeagueTeams(socLeagueObj.teams);
-        this.leagueName = socLeagueObj.name;
-        this.roundRobin = socLeagueObj.roundRobin;
-        this.numChampions = socLeagueObj.numChampions;
-        this.numSecondary = socLeagueObj.numSecondary;
-        this.numRelegations = socLeagueObj.numRelegations;
+    constructor (soccerLeagueInfo) {
+        //Format for soccerLeagueInfo:
+            // [country, name, teams, roundRobin, numChampions, numSecondary, numRelegations]
+        this.country = soccerLeagueInfo[0];
+        this.leagueName = soccerLeagueInfo[1];
+        this.leagueTeams = getLeagueTeams(soccerLeagueInfo[2]);
+        this.roundRobin = soccerLeagueInfo[3];
+        this.numChampions = soccerLeagueInfo[4]
+        this.numSecondary = soccerLeagueInfo[5];
+        this.numRelegations = soccerLeagueInfo[6];
         this.schedule = [];
         this.standings = [];
         this.currentWeek = 0;
@@ -251,8 +254,8 @@ export class SoccerLeague {
         let pos = 1;
         for (let team of this.leagueTeams) {
             if (team.teamName != "<BYE>") {
-                teamStats = [pos, team.teamName, team.gamesPlayed(), team.wins, team.draws, team.losses,
-                    team.goalsFor, team.goalsAgainst, team.goalDifference(), team.points()];
+                teamStats = [pos, team.teamName, team.gamesPlayed, team.wins, team.draws, team.losses,
+                    team.goalsFor, team.goalsAgainst, team.goalDifference, team.points];
                 
                 pos++;
                 this.standings.push(teamStats);
@@ -284,10 +287,10 @@ function getLeagueTeams (teams) {
 //Sort descending by points, goal diff, goals for, then alphabetically
 function sortTeams (teamArray) {
     teamArray.sort((a, b) => {
-        if (a.points() != b.points())
-            return (b.points() - a.points());
-        else if (a.goalDifference() != b.goalDifference())
-            return b.goalDifference() - a.goalDifference();
+        if (a.points != b.points)
+            return (b.points - a.points);
+        else if (a.goalDifference != b.goalDifference)
+            return b.goalDifference - a.goalDifference;
         else if (a.goalsFor != b.goalsFor)
             return b.goalsFor - a.goalsFor;
         else
