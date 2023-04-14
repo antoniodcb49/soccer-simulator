@@ -10,7 +10,18 @@ class SoccerTeam {
         this.points = 0;
     }
 
-    updateStats () {
+    //Takes the score of a game and updates the team's stats
+    updateStats (goalsFor, goalsAgainst) {
+        if (goalsFor > goalsAgainst) 
+            this.wins++;
+        else if (goalsFor < goalsAgainst)
+            this.losses++;
+        else
+            this.draws++;
+        
+        this.goalsFor += goalsFor;
+        this.goalsAgainst += goalsAgainst;
+
         this.goalDifference = this.goalsFor - this.goalsAgainst;
         this.points = 3*this.wins + this.draws;
         this.gamesPlayed = this.wins + this.losses + this.draws;
@@ -45,35 +56,8 @@ class SoccerMatch {
         }
 
         this.played = true;
-
-        if (this.homeGoals > this.awayGoals) {
-            this.homeTeam.wins++;
-            this.awayTeam.losses++;
-        }
-        else if (this.homeGoals < this.awayGoals) {
-            this.homeTeam.losses++;
-            this.awayTeam.wins++;
-        }
-        else {
-            this.homeTeam.draws++;
-            this.awayTeam.draws++;
-        }
-
-        this.homeTeam.goalsFor += this.homeGoals;
-        this.homeTeam.goalsAgainst += this.awayGoals;
-
-        this.awayTeam.goalsFor += this.awayGoals;
-        this.awayTeam.goalsAgainst += this.homeGoals;
-
-        this.homeTeam.updateStats();
-        this.awayTeam.updateStats();
-    }
-
-    //positive if home team won, negative if away team won, 0 if tie/draw
-    getResult () {
-        if (this.played)
-            return this.homeGoals - this.awayGoals;
-        return null;
+        this.homeTeam.updateStats(this.homeGoals, this.awayGoals);
+        this.awayTeam.updateStats(this.awayGoals, this.homeGoals);
     }
 
     toString () {  
@@ -130,7 +114,7 @@ export class SoccerLeague {
         for (let r1 = 0; r1 < numRounds; r1++) {
           let round = [];
           for (let g1 = 0; g1 < gamesPerRd; g1++) {
-            round.push(this.leagueTeams[count % (numRounds)]);
+            round.push(this.leagueTeams[count % (numTeams - 1)]);
             count++;
           }
           table1.push(round);
@@ -173,7 +157,7 @@ export class SoccerLeague {
             }
           }       
 
-          this.randomizeRound(round);
+          randomizeRound(round);
           this.schedule.push(round);
         }
         
@@ -212,7 +196,7 @@ export class SoccerLeague {
                 round.push(new SoccerMatch(game.awayTeam, game.homeTeam));
             }
 
-            this.randomizeRound(round);
+            randomizeRound(round);
             newCycle.push(round);
         }
 
@@ -223,17 +207,10 @@ export class SoccerLeague {
             round.push(new SoccerMatch(game.awayTeam, game.homeTeam));
         }
 
-        this.randomizeRound(round);
+        randomizeRound(round);
         newCycle.push(round);
 
         return newCycle;
-    }
-
-    randomizeRound (round) {
-        for (let g = 0; g < round.length; g++){
-            let rand = Math.floor(Math.random() * round.length);
-            [round[rand], round[g]] = [round[g], round[rand]];
-        }        
     }
 
     //Rounded to 2 decimal places
@@ -304,4 +281,11 @@ function randomizeTeams (teamArray) {
 
         [teamArray[a], teamArray[i]] = [teamArray[i], teamArray[a]];
     }
+}
+
+function randomizeRound (round) {
+    for (let g = 0; g < round.length; g++){
+        let rand = Math.floor(Math.random() * round.length);
+        [round[rand], round[g]] = [round[g], round[rand]];
+    }        
 }
