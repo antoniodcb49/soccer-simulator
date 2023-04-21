@@ -6,7 +6,7 @@ let schedule = null;
 let standings = null;
 let leagueSelected = false;
 
-let createLeague = function (soccerLeagueInfo) {
+function createLeague(soccerLeagueInfo) {
   //Format for soccerLeagueInfo:
   // [country, name, teams, roundRobin, numChampions, numSecondary, numRelegations]
   league = new SoccerLeague(soccerLeagueInfo);
@@ -23,7 +23,7 @@ let createLeague = function (soccerLeagueInfo) {
   schedule = league.createSchedule();
   standings = league.createStandings();
   printStandings();
-};
+}
 
 let dropdownLeagues = document.querySelectorAll(".create-league");
 
@@ -33,7 +33,7 @@ dropdownLeagues.forEach((league) =>
   })
 );
 
-let simulateNextWeek = function () {
+function simulateNextWeek() {
   if (!leagueSelected) {
     alert("Select a league");
     return;
@@ -46,13 +46,13 @@ let simulateNextWeek = function () {
     printStandings();
     printGoalAvg();
   }
-};
+}
 
 document
   .getElementById("sim-next-week")
   .addEventListener("click", simulateNextWeek);
 
-let simulateSeason = function () {
+function simulateSeason() {
   if (!leagueSelected) {
     alert("Select a league");
     return;
@@ -64,24 +64,11 @@ let simulateSeason = function () {
   standings = league.createStandings();
   printSchedule();
   printStandings();
-};
+}
 
 document.getElementById("sim-season").addEventListener("click", simulateSeason);
 
-let changeTab = function (oldTab, newTab) {
-  document
-    .getElementById(newTab + "-pane")
-    .setAttribute("class", "tab-pane fade show active");
-  document
-    .getElementById(newTab + "-tab")
-    .setAttribute("class", "nav-link active");
-  document
-    .getElementById(oldTab + "-pane")
-    .setAttribute("class", "tab-pane fade");
-  document.getElementById(oldTab + "-tab").setAttribute("class", "nav-link");
-};
-
-let printSchedule = function () {
+function printSchedule() {
   if (!leagueSelected) {
     alert("Select a league");
     return;
@@ -108,10 +95,11 @@ let printSchedule = function () {
     document.getElementById("schedule").appendChild(weekSched);
     changeTab("standings", "schedule");
   }
-};
+}
 document.getElementById("print-sched").addEventListener("click", printSchedule);
 
 let printTeamSchedule = function (teamToPrint) {
+  let schedElement = document.getElementById("schedule");
   let table = document.createElement("table");
   let tableBody = document.createElement("tbody");
   let weekCount = 0;
@@ -130,9 +118,9 @@ let printTeamSchedule = function (teamToPrint) {
 
       if (gameString.includes(teamToPrint)) {
         if (gameString.includes("<BYE>")) {
-          schedString += "Bye Week"; //<br>";
+          schedString += "Bye Week";
         } else {
-          schedString += gameString; // + '<br>';
+          schedString += gameString;
         }
         let gameTextNode = document.createTextNode(schedString);
         gameCell.appendChild(gameTextNode);
@@ -142,10 +130,20 @@ let printTeamSchedule = function (teamToPrint) {
     tableBody.appendChild(tableRow);
     weekCount++;
   }
-  document.getElementById("schedule").innerHTML = "<br>";
+  schedElement.innerHTML = "<br><h4>" + teamToPrint + "</h4>";
   table.appendChild(tableBody);
-  table.setAttribute("class", "table table-dark team-schedule-table");
-  document.getElementById("schedule").appendChild(table);
+  table.setAttribute("class", "table team-schedule-table");
+
+  let scheduleDiv = document.createElement("div");
+  scheduleDiv.setAttribute("class", "col-6");
+  scheduleDiv.appendChild(table);
+  schedElement.appendChild(scheduleDiv);
+
+  let pictureDiv = document.createElement("div");
+  pictureDiv.setAttribute("class", "col-6");
+  pictureDiv.appendChild(getTeamImage(teamToPrint));
+  schedElement.appendChild(pictureDiv);
+
   changeTab("standings", "schedule");
 };
 
@@ -187,26 +185,35 @@ document
     printWeek(null);
   });
 
-let printStandings = function () {
+function printStandings() {
   if (!leagueSelected) {
     alert("Select a league");
     return;
   }
   let table = document.createElement("table");
   let tableBody = document.createElement("tbody");
+  let header = ["Pos", "Team", "GP", "W", "D", "L", "GF", "GA", "GD", "PTS"];
+  let headerRow = document.createElement("tr");
+
+  for (let statName of header) {
+    let headerCell = document.createElement("th");
+    let cellText = document.createTextNode(statName);
+    headerCell.appendChild(cellText);
+    headerRow.appendChild(headerCell);
+  }
+
+  tableBody.appendChild(headerRow);
 
   let relegationZone = standings.length - league.numRelegations;
   for (let r = 0; r < standings.length; r++) {
     let row = document.createElement("tr");
 
     for (let c = 0; c < 10; c++) {
-      let cellType = r == 0 ? "th" : "td";
-      //creates data cell or header cell
-      let cell = document.createElement(cellType);
+      let cell = document.createElement("td");
       let teamStr = standings[r][c];
-      let cellTextNode = document.createTextNode(" " + teamStr);
+      let cellTextNode = document.createTextNode(` ${teamStr}`);
 
-      if (c == 1 && r != 0) {
+      if (c == 1) {
         let id = String(standings[r][1].toLowerCase()).replaceAll(" ", "-");
         cell.setAttribute("id", id);
         cell.setAttribute("class", "team-name");
@@ -214,13 +221,7 @@ let printStandings = function () {
           printTeamSchedule(teamStr);
         });
 
-        let teamPic = document.createElement("img");
-        teamPic.setAttribute(
-          "src",
-          "./images/Team Logos/" + league.country + " league/" + id + ".png"
-        );
-        teamPic.setAttribute("width", "25px");
-        teamPic.setAttribute("alt", teamStr);
+        let teamPic = getTeamImage(teamStr, 25);
         cell.appendChild(teamPic);
       }
       cell.appendChild(cellTextNode);
@@ -228,13 +229,14 @@ let printStandings = function () {
     }
 
     if (r >= relegationZone) row.setAttribute("class", "table-danger");
+
     if (
       r == Math.trunc(relegationZone) &&
       row.getAttribute("class") != "table-danger"
     )
       row.setAttribute("class", "table-warning");
-    if (r >= 1 && r <= league.numChampions)
-      row.setAttribute("class", "table-info");
+
+    if (r < league.numChampions) row.setAttribute("class", "table-info");
     tableBody.appendChild(row);
   }
   table.appendChild(tableBody);
@@ -244,21 +246,21 @@ let printStandings = function () {
   table.setAttribute("class", "table table-dark");
   document.getElementById("teams").appendChild(table);
   printGoalAvg();
-};
+}
 
 document
   .getElementById("print-stand")
   .addEventListener("click", printStandings);
 
-let printGoalAvg = function () {
+function printGoalAvg() {
   document.getElementById("goals-avg").innerHTML =
     "Goals scored: " +
     league.numGoals +
     "<br>Goals per game: " +
     league.goalsPerGame();
-};
+}
 
-let clearInfo = function () {
+function clearInfo() {
   document.getElementById("schedule").innerHTML = "";
   let countryLeague = league.country + " (" + league.leagueName + ")";
   if (leagueSelected) {
@@ -267,5 +269,34 @@ let clearInfo = function () {
   }
   document.getElementById("teams").innerHTML = "";
   document.getElementById("goals-avg").innerHTML = "";
-};
+}
 document.getElementById("clear-info").addEventListener("click", clearInfo);
+
+/* -- Helper Functions -- */
+function changeTab(oldTab, newTab) {
+  document
+    .getElementById(newTab + "-pane")
+    .setAttribute("class", "tab-pane fade show active");
+  document
+    .getElementById(newTab + "-tab")
+    .setAttribute("class", "nav-link active");
+  document
+    .getElementById(oldTab + "-pane")
+    .setAttribute("class", "tab-pane fade");
+  document.getElementById(oldTab + "-tab").setAttribute("class", "nav-link");
+}
+
+function getTeamImage(teamName, width) {
+  let imageId = String(teamName.toLowerCase()).replaceAll(" ", "-");
+  let image = document.createElement("img");
+  image.setAttribute(
+    "src",
+    "./images/Team Logos/" + league.country + " league/" + imageId + ".png"
+  );
+
+  if (width) image.setAttribute("width", `${width}px`);
+
+  image.setAttribute("alt", teamName);
+
+  return image;
+}
