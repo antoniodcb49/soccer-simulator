@@ -16,6 +16,15 @@ h4 {
   text-align: center;
 }
 
+.sched-image {
+  margin: auto;
+  display: block;
+  max-width: 80%;
+}
+.standings-image {
+  width: 25px;
+}
+
 button {
   background-color: white;
 }

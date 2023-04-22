@@ -138,7 +138,7 @@ export class SoccerLeague {
       table1.push(round);
     }
 
-    //Create Table 2
+    //Create Table 2, based on table 1
     let table2 = [];
     for (let r1 = 1; r1 < numRounds; r1++) {
       let round2 = [];
@@ -154,9 +154,9 @@ export class SoccerLeague {
       round2.push(table1[0][g1]);
     }
     table2.push(round2);
-    //Finish creating Table 2
+    //Table 2 finished
 
-    //Create final schedule
+    //Create final schedule, by combining Tables 1 and 2
     this.schedule = [];
     //Create first cycle of Round Robin (every team plays numRounds games)
     for (let r = 0; r < numRounds; r++) {
@@ -184,7 +184,7 @@ export class SoccerLeague {
     //If this is a double round robin (or triple, quadruple, etc...)
     //This portion creates the next cycles
     let cyclesCreated = 1; //A single round robin so far
-    let prevCycle = Object.assign({}, this.schedule);
+    let prevCycle = structuredClone(this.schedule);
 
     while (cyclesCreated < this.roundRobin) {
       let nextCycle = this.createNextCycle(prevCycle);
@@ -244,8 +244,6 @@ export class SoccerLeague {
   createStandings() {
     sortTeams(this.leagueTeams);
     this.standings = [];
-    /* let header = ["Pos", "Team", "GP", "W", "D", "L", "GF", "GA", "GD", "PTS"];
-    this.standings.push(header); */
 
     let teamStats = [];
     let pos = 1;

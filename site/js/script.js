@@ -141,7 +141,9 @@ let printTeamSchedule = function (teamToPrint) {
 
   let pictureDiv = document.createElement("div");
   pictureDiv.setAttribute("class", "col-6");
-  pictureDiv.appendChild(getTeamImage(teamToPrint));
+
+  let teamImage = getTeamImage(teamToPrint, "sched-image");
+  pictureDiv.appendChild(teamImage);
   schedElement.appendChild(pictureDiv);
 
   changeTab("standings", "schedule");
@@ -217,11 +219,11 @@ function printStandings() {
         let id = String(standings[r][1].toLowerCase()).replaceAll(" ", "-");
         cell.setAttribute("id", id);
         cell.setAttribute("class", "team-name");
-        cell.addEventListener("click", function () {
+        cell.addEventListener("click", () => {
           printTeamSchedule(teamStr);
         });
 
-        let teamPic = getTeamImage(teamStr, 25);
+        let teamPic = getTeamImage(teamStr, "standings-image");
         cell.appendChild(teamPic);
       }
       cell.appendChild(cellTextNode);
@@ -286,7 +288,7 @@ function changeTab(oldTab, newTab) {
   document.getElementById(oldTab + "-tab").setAttribute("class", "nav-link");
 }
 
-function getTeamImage(teamName, width) {
+function getTeamImage(teamName, imgClass) {
   let imageId = String(teamName.toLowerCase()).replaceAll(" ", "-");
   let image = document.createElement("img");
   image.setAttribute(
@@ -294,8 +296,7 @@ function getTeamImage(teamName, width) {
     "./images/Team Logos/" + league.country + " league/" + imageId + ".png"
   );
 
-  if (width) image.setAttribute("width", `${width}px`);
-
+  if (imgClass) image.setAttribute("class", imgClass);
   image.setAttribute("alt", teamName);
 
   return image;
