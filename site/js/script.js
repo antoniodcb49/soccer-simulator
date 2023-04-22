@@ -216,12 +216,9 @@ function printStandings() {
       let cellTextNode = document.createTextNode(` ${teamStr}`);
 
       if (c == 1) {
-        let id = String(standings[r][1].toLowerCase()).replaceAll(" ", "-");
+        let id = String(teamStr.toLowerCase()).replaceAll(" ", "-");
         cell.setAttribute("id", id);
         cell.setAttribute("class", "team-name");
-        cell.addEventListener("click", () => {
-          printTeamSchedule(teamStr);
-        });
 
         let teamPic = getTeamImage(teamStr, "standings-image");
         cell.appendChild(teamPic);
@@ -247,6 +244,10 @@ function printStandings() {
   table.setAttribute("id", "standings");
   table.setAttribute("class", "table table-dark");
   document.getElementById("teams").appendChild(table);
+
+  delegate(table, ".team-name", "click", (teamStr) => {
+    printTeamSchedule(teamStr);
+  });
   printGoalAvg();
 }
 
@@ -300,4 +301,12 @@ function getTeamImage(teamName, imgClass) {
   image.setAttribute("alt", teamName);
 
   return image;
+}
+
+function delegate(el, selector, eventKey, handler) {
+  el.addEventListener(eventKey, (event) => {
+    if (event.target.matches(selector)) {
+      handler(event.target.innerText.trim());
+    }
+  });
 }
