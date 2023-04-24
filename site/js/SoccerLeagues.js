@@ -69,6 +69,7 @@ class SoccerMatch {
     }
 
     this.played = true;
+    console.log(this.toString());
     this.homeTeam.updateStats(this.homeGoals, this.awayGoals);
     this.awayTeam.updateStats(this.awayGoals, this.homeGoals);
   }
@@ -184,7 +185,7 @@ export class SoccerLeague {
     //If this is a double round robin (or triple, quadruple, etc...)
     //This portion creates the next cycles
     let cyclesCreated = 1; //A single round robin so far
-    let prevCycle = structuredClone(this.schedule);
+    let prevCycle = Object.assign({}, this.schedule); //structuredClone(this.schedule);
 
     while (cyclesCreated < this.roundRobin) {
       let nextCycle = this.createNextCycle(prevCycle);
