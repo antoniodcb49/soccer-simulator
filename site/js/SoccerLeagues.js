@@ -121,6 +121,80 @@ export class SoccerLeague {
     if (this.currentWeek == this.numWeeks) this.simulated = true;
   }
 
+  createSchedule2() {
+    let leagueTeamsLength = this.leagueTeams.length;
+    let numRounds = leagueTeamsLength - 1; //Number of rounds in a single round robin
+    let gamesPerRd = leagueTeamsLength / 2;
+    randomizeTeams(this.leagueTeams);
+
+    //Table 1 Start
+    let table1 = [];
+    let count = 0;
+    for (let round1 = 0; round1 < numRounds; round1++) {
+      let round = [];
+      for (let game1 = 0; game1 < gamesPerRd; game1++) {
+        round.push(this.leagueTeams[count % (leagueTeamsLength - 1)]);
+        count++;
+      }
+      table1.push(round);
+    }
+    //Table 1 End
+
+    //Table 2 Start
+    let table2 = [];
+    for (let round2 = 0; round2 < numRounds - 1; round2++) {
+      let round = [];
+      for (let game2 = 0; game2 < gamesPerRd; game2++) {
+        round.push(table1[round2 + 1][gamesPerRd - 1 - game2]);
+      }
+      table2.push(round);
+    }
+
+    //Copy the 1st row of table 1 into the last row of table2
+    let round2 = [];
+    for (let game2 = 0; game2 < gamesPerRd; game2++) {
+      round2.push(table1[0][gamesPerRd - 1 - game2]);
+    }
+    table2.push(round2);
+    //Table 2 End
+
+    //Insert the last team located at this.leagueTeams.length - 1
+    //in alternating order
+    for (let r = 0; r < numRounds; r++) {
+      if (r % 2 == 0) table1[r][0] = this.leagueTeams[leagueTeamsLength - 1];
+      else table2[r][0] = this.leagueTeams[leagueTeamsLength - 1];
+    }
+
+    for (let cycle = 0; cycle < this.roundRobin; cycle++) {
+      for (let r = 0; r < numRounds; r++) {
+        let round = [];
+        for (let g = 0; g < gamesPerRd; g++) {
+          let homeTm, awayTm;
+          if (cycle % 2 == 0) {
+            homeTm = table1[r][g];
+            awayTm = table2[r][g];
+          } else {
+            homeTm = table2[r][g];
+            awayTm = table1[r][g];
+          }
+          round.push(new SoccerMatch(homeTm, awayTm));
+        }
+        this.schedule.push(round);
+      }
+
+      //Removes the first row of tables 1 and 2
+      let tempArray1 = table1.shift();
+      let tempArray2 = table2.shift();
+
+      //Puts it at the end
+      table1.push(tempArray1);
+      table2.push(tempArray2);
+    }
+
+    console.log(this.schedule);
+    return this.schedule;
+  }
+
   createSchedule() {
     let numTeams = this.leagueTeams.length;
     let numRounds = numTeams - 1;

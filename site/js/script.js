@@ -1,18 +1,24 @@
 import { SoccerLeague } from "./SoccerLeagues.js";
 import { soccerLeaguesInfo } from "./LeaguesInfo.js";
 
-let league = null;
-let schedule = null;
-let standings = null;
-let leagueSelected = false;
+let $ = {
+  leaguesCreated: 0,
+  leagues: [],
+  dropdownLeagues: null,
+  currentLeague: null,
+};
 
 function createLeague(soccerLeagueInfo) {
   //Format for soccerLeagueInfo:
   // [country, name, teams, roundRobin, numChampions, numSecondary, numRelegations]
-  league = new SoccerLeague(soccerLeagueInfo);
-  leagueSelected = true;
+  let leagueCreated = new SoccerLeague(soccerLeagueInfo);
+  leagueCreated.createSchedule2();
+  leagueCreated.createStandings();
+  $.leagues.push(leagueCreated);
+  $.currentLeague = leagueCreated;
+  $.leaguesCreated++;
 
-  document.getElementById("teams").innerHTML = "";
+  document.getElementById("standings").innerHTML = "";
   document.getElementById("schedule").innerHTML =
     "League Selected: " +
     soccerLeagueInfo[0] +
@@ -20,29 +26,46 @@ function createLeague(soccerLeagueInfo) {
     soccerLeagueInfo[1] +
     ")";
 
-  schedule = league.createSchedule();
-  standings = league.createStandings();
   printStandings();
 }
 
-let dropdownLeagues = document.querySelectorAll(".create-league");
+function getLeagueIndex(country, name) {
+  let j = 0;
+  for (let lg of $.leagues) {
+    if (lg.country == country && lg.leagueName == name) return j;
+    else j++;
+  }
+  return -1;
+}
 
-dropdownLeagues.forEach((league) =>
+$.dropdownLeagues = document.querySelectorAll(".create-league");
+
+$.dropdownLeagues.forEach((league) =>
   league.addEventListener("click", (event) => {
-    createLeague(soccerLeaguesInfo[league.id + "League"]);
+    // [country, name, teams, roundRobin, numChampions, numSecondary, numRelegations]
+    let leagueInfo = soccerLeaguesInfo[league.id + "League"];
+    let leagueIndex = getLeagueIndex(leagueInfo[0], leagueInfo[1]); //(country, name)
+
+    if (leagueIndex == -1) {
+      createLeague(leagueInfo);
+    } else {
+      $.currentLeague = $.leagues[leagueIndex];
+      clearInfo();
+      printStandings();
+    }
   })
 );
 
 function simulateNextWeek() {
-  if (!leagueSelected) {
+  if ($.leaguesCreated == 0) {
     alert("Select a league");
     return;
   }
 
-  if (!league.simulated) {
-    league.simulateNextWeek();
-    standings = league.createStandings();
-    printWeek(league.currentWeek);
+  if (!$.currentLeague.simulated) {
+    $.currentLeague.simulateNextWeek();
+    $.standings = $.currentLeague.createStandings();
+    printWeek($.currentLeague.currentWeek);
     printStandings();
     printGoalAvg();
   }
@@ -53,15 +76,15 @@ document
   .addEventListener("click", simulateNextWeek);
 
 function simulateSeason() {
-  if (!leagueSelected) {
+  if ($.leaguesCreated == 0) {
     alert("Select a league");
     return;
   }
 
-  while (!league.simulated) {
-    league.simulateNextWeek();
+  while (!$.currentLeague.simulated) {
+    $.currentLeague.simulateNextWeek();
   }
-  standings = league.createStandings();
+  $.currentLeague.standings = $.currentLeague.createStandings();
   printSchedule();
   printStandings();
 }
@@ -69,7 +92,7 @@ function simulateSeason() {
 document.getElementById("sim-season").addEventListener("click", simulateSeason);
 
 function printSchedule() {
-  if (!leagueSelected) {
+  if ($.leaguesCreated == 0) {
     alert("Select a league");
     return;
   }
@@ -77,10 +100,10 @@ function printSchedule() {
   let schedString = "";
   document.getElementById("schedule").innerHTML = "";
 
-  for (let week in schedule) {
+  for (let week in $.currentLeague.schedule) {
     schedString = "<span>Week " + (+week + 1) + "</span><br>";
 
-    for (let game of schedule[week]) {
+    for (let game of $.currentLeague.schedule[week]) {
       let gameString = game.toString();
 
       //If either team is <BYE>, it won't be printed
@@ -104,7 +127,7 @@ let printTeamSchedule = function (teamToPrint) {
   let tableBody = document.createElement("tbody");
   let weekCount = 0;
 
-  for (let week of schedule) {
+  for (let week of $.currentLeague.schedule) {
     let schedString = "";
     let tableRow = document.createElement("tr");
     let weekCell = document.createElement("td");
@@ -150,7 +173,7 @@ let printTeamSchedule = function (teamToPrint) {
 };
 
 let printWeek = function (weekToPrint) {
-  if (!leagueSelected) {
+  if ($.leaguesCreated == 0) {
     alert("Select a league");
     return;
   }
@@ -158,15 +181,15 @@ let printWeek = function (weekToPrint) {
   if (weekToPrint == null)
     do {
       weekToPrint = prompt(
-        `Enter a week (between 1 and ${schedule.length})`,
+        `Enter a week (between 1 and ${$.currentLeague.schedule.length})`,
         1
       );
       if (weekToPrint == null) return;
-    } while (weekToPrint <= 0 || weekToPrint > schedule.length);
+    } while (weekToPrint <= 0 || weekToPrint > $.currentLeague.schedule.length);
 
   let weekString = "<span>Week " + weekToPrint + "</span>";
 
-  for (let game of schedule[weekToPrint - 1]) {
+  for (let game of $.currentLeague.schedule[weekToPrint - 1]) {
     let gameString = game.toString();
 
     //If either team is <BYE>, it won't be printed
@@ -188,13 +211,13 @@ document
   });
 
 function printStandings() {
-  if (!leagueSelected) {
+  if ($.leaguesCreated == 0) {
     alert("Select a league");
     return;
   }
   let table = document.createElement("table");
   let tableBody = document.createElement("tbody");
-  let header = ["Pos", "Team", "GP", "W", "D", "L", "GF", "GA", "GD", "PTS"];
+  const header = ["Pos", "Team", "GP", "W", "D", "L", "GF", "GA", "GD", "PTS"];
   let headerRow = document.createElement("tr");
 
   for (let statName of header) {
@@ -206,13 +229,14 @@ function printStandings() {
 
   tableBody.appendChild(headerRow);
 
-  let relegationZone = standings.length - league.numRelegations;
-  for (let r = 0; r < standings.length; r++) {
+  let relegationZone =
+    $.currentLeague.standings.length - $.currentLeague.numRelegations;
+  for (let r = 0; r < $.currentLeague.standings.length; r++) {
     let row = document.createElement("tr");
 
-    for (let c = 0; c < 10; c++) {
+    for (let c = 0; c < header.length; c++) {
       let cell = document.createElement("td");
-      let teamStr = standings[r][c];
+      let teamStr = $.currentLeague.standings[r][c];
       let cellTextNode = document.createTextNode(` ${teamStr}`);
 
       if (c == 1) {
@@ -235,15 +259,16 @@ function printStandings() {
     )
       row.setAttribute("class", "table-warning");
 
-    if (r < league.numChampions) row.setAttribute("class", "table-info");
+    if (r < $.currentLeague.numChampions)
+      row.setAttribute("class", "table-info");
     tableBody.appendChild(row);
   }
   table.appendChild(tableBody);
-  document.getElementById("teams").innerHTML = "";
+  document.getElementById("standings").innerHTML = "";
   table.setAttribute("border", "1");
   table.setAttribute("id", "standings");
   table.setAttribute("class", "table table-dark");
-  document.getElementById("teams").appendChild(table);
+  document.getElementById("standings").appendChild(table);
 
   delegate(table, ".team-name", "click", (teamStr) => {
     printTeamSchedule(teamStr);
@@ -258,19 +283,20 @@ document
 function printGoalAvg() {
   document.getElementById("goals-avg").innerHTML =
     "Goals scored: " +
-    league.numGoals +
+    $.currentLeague.numGoals +
     "<br>Goals per game: " +
-    league.goalsPerGame();
+    $.currentLeague.goalsPerGame();
 }
 
 function clearInfo() {
   document.getElementById("schedule").innerHTML = "";
-  let countryLeague = league.country + " (" + league.leagueName + ")";
-  if (leagueSelected) {
+  let countryLeague =
+    $.currentLeague.country + " (" + $.currentLeague.leagueName + ")";
+  if ($.leagues.length > 0) {
     document.getElementById("schedule").innerHTML =
       "League Selected: " + countryLeague;
   }
-  document.getElementById("teams").innerHTML = "";
+  document.getElementById("standings").innerHTML = "";
   document.getElementById("goals-avg").innerHTML = "";
 }
 document.getElementById("clear-info").addEventListener("click", clearInfo);
@@ -294,7 +320,11 @@ function getTeamImage(teamName, imgClass) {
   let image = document.createElement("img");
   image.setAttribute(
     "src",
-    "./images/Team Logos/" + league.country + " league/" + imageId + ".png"
+    "./images/Team Logos/" +
+      $.currentLeague.country +
+      " league/" +
+      imageId +
+      ".png"
   );
 
   if (imgClass) image.setAttribute("class", imgClass);
